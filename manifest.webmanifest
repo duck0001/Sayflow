@@ -1,0 +1,27 @@
+{
+  "name": "SayFlow — 言いたいことから英語へ",
+  "short_name": "SayFlow",
+  "description": "会議の説明を2タップで英語に。実戦の型と3段階トレーニング。",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#090f20",
+  "theme_color": "#090f20",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

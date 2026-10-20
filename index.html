@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090f20">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>SayFlow 1.3.1 — 英語の出だし・説明トレーニング</title>
+<meta name="description" content="伝えたいことは決まっている。英語の出だしを2タップで。サービス説明・業務フロー・進捗報告を実戦と練習で身につけるSayFlow。">
+<meta name="apple-mobile-web-app-title" content="SayFlow">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="./icons/icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<style>
+:root{color-scheme:dark;--ink:#f4f5ff;--muted:#abb6cc;--line:rgba(255,255,255,.11);--bg:#090f20;--pane:#101a32;--pink:#ff95c0;--cyan:#92dfea;--violet:#ae9dff;--gold:#f2cb8a;--lime:#b9e8b8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;color:var(--ink);background:var(--bg)}
+body{overflow-x:hidden;background:radial-gradient(ellipse at 14% 8%,#2b315d80 0%,transparent 42%),radial-gradient(ellipse at 92% 75%,#123d4970 0%,transparent 48%),#090f20}
+button{font-family:inherit;color:inherit;cursor:pointer;border:0;touch-action:manipulation}button:focus-visible{outline:3px solid #b6e6ff;outline-offset:4px}
+.app{max-width:550px;margin:0 auto;min-height:100dvh;position:relative;display:flex;flex-direction:column;padding:env(safe-area-inset-top) 18px calc(env(safe-area-inset-bottom) + 20px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:18px 2px 10px;position:relative;z-index:3}
+.logo{display:inline-flex;align-items:center;gap:9px;letter-spacing:.01em;font-weight:800;font-size:17px}
+.logomark{width:32px;height:32px;border-radius:12px;background:linear-gradient(135deg,var(--pink),var(--violet) 57%,var(--cyan));box-shadow:0 0 30px #ae9dff40;display:grid;place-items:center;color:#12132f;font-weight:1000;font-size:19px}
+.header-actions{display:flex;gap:9px;align-items:center}.small-btn{height:36px;border-radius:13px;border:1px solid var(--line);background:#ffffff0d;padding:0 12px;font-size:12px;font-weight:700}.small-btn strong{color:#ffd98d}
+.progress{display:flex;align-items:center;gap:6px;padding:6px 2px 0;min-height:12px}.progress span{height:4px;border-radius:12px;background:#ffffff25;flex:1;transition:background .3s}.progress span.on{background:linear-gradient(90deg,#ce9bf4,#8adfe6)}
+main{flex:1;display:flex;flex-direction:column;min-height:500px}.panel{animation:arrive .34s cubic-bezier(.2,.85,.28,1) both;flex:1;display:flex;flex-direction:column}.panel.fadeout{animation:out .2s ease forwards}
+@keyframes arrive{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}@keyframes out{to{opacity:0;transform:translateY(-9px) scale(.98)}}
+.headline{padding:27px 8px 8px}.eyebrow{letter-spacing:.14em;font-size:11px;font-weight:800;color:#a8c6de;text-transform:uppercase;margin-bottom:12px}.headline h1{font-size:clamp(27px,7vw,34px);line-height:1.3;margin:0;letter-spacing:-.055em;font-weight:850}.headline h1 em{font-style:normal;background:linear-gradient(95deg,#ffd3eb,#b7caff,#9feced);-webkit-background-clip:text;background-clip:text;color:transparent}.headline p{color:var(--muted);font-size:13px;line-height:1.75;margin:10px 0 0}
+.entry-list{display:grid;gap:12px;padding:28px 4px 0}.entry{width:100%;text-align:left;border:1px solid #ffffff18;border-radius:24px;min-height:100px;background:linear-gradient(118deg,#1a2544cc,#101a32dd);display:flex;gap:14px;align-items:center;padding:18px 16px;transition:transform .18s,border-color .18s,background .18s}.entry:active{transform:scale(.97)}.entry:hover{border-color:#b4b9ff70}.entry-icon{height:53px;width:53px;flex:none;display:grid;place-items:center;font-size:25px;border-radius:19px;background:#7c74bc27}.entry:nth-child(2) .entry-icon{background:#4d9cb02c}.entry:nth-child(3) .entry-icon{background:#cf9e642a}.entry-title{font-size:18px;font-weight:800;display:block}.entry-sub{font-size:12px;line-height:1.7;color:#b5bfd7;display:block;margin-top:5px}.entry-arrow{margin-left:auto;color:#9cacc4;font-size:21px}
+.bubbles{margin:auto auto;display:flex;justify-content:center;align-items:center;width:100%;padding:18px 0 35px;gap:17px;flex-wrap:wrap;max-width:400px;min-height:370px;align-content:center;position:relative}.bubbles.triangle{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));justify-items:center;column-gap:7px;row-gap:4px}.bubbles.triangle .bubble:nth-child(3){grid-column:1 / -1;margin-top:-4px}.bubbles.duo{display:flex;align-content:center;gap:17px}
+.bubble{position:relative;width:min(40vw,163px);height:min(40vw,163px);min-width:126px;min-height:126px;border-radius:46% 54% 61% 39% / 48% 39% 61% 52%;isolation:isolate;color:#111832;background:radial-gradient(circle at 30% 20%,#ffffffc9 0%,#ffffff51 12%,transparent 34%),linear-gradient(145deg,var(--a),var(--b));box-shadow:inset -12px -12px 24px #29314630,inset 9px 10px 19px #ffffff4d,0 19px 40px var(--glow);transform-origin:center;animation:floatblob 5s ease-in-out infinite;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-weight:800;font-size:19px;letter-spacing:-.04em;text-shadow:0 1px 1px #ffffff5b;transition:opacity .27s,filter .27s}
+.bubble:before{content:"";position:absolute;top:16%;left:19%;width:32%;height:12%;border-radius:50%;background:#fff8;filter:blur(8px);transform:rotate(-32deg);z-index:-1}
+.bubble:nth-child(2){animation-delay:-1.6s}.bubble:nth-child(3){animation-delay:-3.2s}.bubble:active{filter:brightness(1.12)}.bubble small{font-size:11px;font-weight:750;opacity:.72}.bubble.selected{animation:squish .57s cubic-bezier(.35,.01,.15,1) forwards;z-index:2}.bubble.unselected{opacity:0;filter:blur(7px);transform:scale(.6)!important;pointer-events:none}
+@keyframes floatblob{0%,100%{transform:translateY(0) rotate(-2deg);border-radius:46% 54% 61% 39% / 48% 39% 61% 52%}50%{transform:translateY(-10px) rotate(3deg);border-radius:56% 44% 43% 57% / 40% 59% 41% 60%}}
+@keyframes squish{0%{transform:scale(1)}22%{transform:scale(1.17,.79);border-radius:68% 32% 49% 51% / 35% 61% 39% 65%}45%{transform:scale(.86,1.25);border-radius:39% 61% 35% 65% / 66% 35% 65% 34%}70%{transform:scale(1.2,.92)}100%{transform:scale(1.55);opacity:0;filter:blur(12px)}}
+.option-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:22px 2px 30px}.intent{border:1px solid #ffffff1b;position:relative;overflow:hidden;border-radius:26px;min-height:128px;background:linear-gradient(140deg,var(--tile),#15213b 90%);padding:19px 14px;text-align:left;display:flex;justify-content:space-between;flex-direction:column;transition:transform .2s,border-color .2s}.intent:hover{border-color:#ffffff58}.intent:active{transform:scale(.95)}.intent:after{content:"";position:absolute;right:-29px;top:-34px;width:95px;height:95px;border-radius:50%;background:#ffffff13;box-shadow:0 0 33px #ffffff15}.intent .icon{font-size:24px}.intent strong{font-size:17px}.intent small{font-size:11px;color:#c5cddd;line-height:1.45;margin-top:4px}
+.route{display:inline-flex;gap:6px;align-items:center;flex-wrap:wrap;color:#b2bdd0;font-size:11px}.route span{background:#ffffff10;border-radius:9px;padding:6px 9px}
+.results{padding:16px 0 20px}.results-lead{padding:16px 5px 2px}.results-lead h1{font-size:25px;line-height:1.35;margin:10px 0 7px}.results-lead p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.filters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:20px 0 17px}.filters::-webkit-scrollbar{display:none}.filter{flex:none;border:1px solid var(--line);border-radius:100px;padding:11px 14px;font-size:12px;background:#ffffff10;color:#c8d2e1}.filter.active{background:#dceafc;color:#1b2844;border-color:#dceafc;font-weight:800}
+.chunk{border-radius:22px;background:linear-gradient(133deg,#192745,#111a30 90%);border:1px solid #ffffff1a;padding:18px 16px;margin:0 0 12px;box-shadow:0 9px 26px #00000016}.chunk-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.chunk-tag{font-size:10px;color:#b8caed;font-weight:700;letter-spacing:.03em}.heart{font-size:21px;padding:4px 5px;color:#8d9aaf;background:transparent}.heart.saved{color:#ffc785}.en{font-size:clamp(19px,5.5vw,23px);font-weight:750;line-height:1.42;letter-spacing:-.026em;margin:12px 0 8px}.jp{font-size:13px;color:#cfdaeb;margin:0;line-height:1.65}.note{margin:11px 0 0;border-left:2px solid #7796ba;padding-left:9px;font-size:11px;color:#9fb1c9;line-height:1.65}.chunk-actions{display:flex;gap:8px;margin-top:16px}.action{display:flex;justify-content:center;align-items:center;gap:7px;border-radius:12px;padding:12px 16px;background:#ffffff12;border:1px solid #ffffff12;font-weight:800;font-size:12px;min-width:105px}.action.primary{background:#e2e7fb;color:#202b47;border-color:#e2e7fb}.action:active{transform:scale(.96)}.action svg{width:15px;height:15px;flex:none}
+.empty{padding:55px 22px;color:#b1bfd2;text-align:center;font-size:14px;line-height:1.9}.help{border:1px dashed #ffffff24;background:#ffffff07;border-radius:20px;padding:17px;margin:0 3px 16px;font-size:12px;line-height:1.8;color:#a9b7ca}
+.footer{display:flex;align-items:center;gap:8px;justify-content:space-between;padding:12px 1px 8px;margin-top:auto;position:sticky;bottom:0;z-index:5;background:linear-gradient(180deg,#090f20dd,#090f20f9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:14px}.footer button{border-radius:13px;padding:12px 15px;font-size:12px;font-weight:750;border:1px solid #ffffff1a;background:#ffffff11}.footer .muted{font-size:11px;color:#7887a4;text-align:right;line-height:1.5}.footer button:disabled{opacity:.3;cursor:default}.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom) + 88px);left:50%;transform:translate(-50%,10px);border-radius:14px;background:#edf4fc;color:#15253d;padding:11px 18px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;z-index:30;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:365px){.app{padding-left:12px;padding-right:12px}.headline{padding-top:20px}.bubble{width:136px;height:136px;min-width:120px;min-height:120px}.bubbles{min-height:335px}.intent{min-height:116px}.entry-list{padding-top:18px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* Polished mobile-first extras for v1.0 */
+html{-webkit-text-size-adjust:100%}
+body{overscroll-behavior-y:none}
+button,input{font:inherit}
+button:focus-visible,input:focus-visible{outline:2px solid #8edfe9;outline-offset:3px}
+::selection{background:#aec4f880;color:#fff}
+header{padding-bottom:13px}
+.header-actions{gap:7px}
+.icon-btn{width:37px;height:37px;min-width:37px;padding:0;display:grid;place-items:center;border:1px solid var(--line);border-radius:13px;background:#ffffff0d}
+.icon-btn svg{width:18px;height:18px;stroke:#c8d9ef;stroke-width:2;fill:none}
+.icon-btn[aria-current="page"]{background:#ffffff25;border-color:#a6d9e077}
+.small-btn[aria-current="page"]{background:#ffffff20;border-color:#a6d9e077}
+.footer{padding:11px 0 calc(8px + env(safe-area-inset-bottom));margin-bottom:calc(-1 * env(safe-area-inset-bottom));gap:4px}
+.footer .muted{color:#aab9ca;font-size:11px;letter-spacing:.01em}
+.footer button{min-height:44px;padding:12px 13px}
+.app{padding-bottom:env(safe-area-inset-bottom)}
+.recent-wrap{padding:30px 2px 10px}
+.section-line{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#d4e4f4;font-weight:800;font-size:12px;margin-bottom:12px}
+.section-line small{color:#8798b3;font-size:10px;letter-spacing:.1em}
+.recent-list{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.recent-card{display:flex;align-items:center;gap:7px;padding:12px 11px;border:1px solid #ffffff19;border-radius:15px;min-width:0;background:#ffffff0a;text-align:left;font-size:13px;font-weight:750}
+.recent-card>span:nth-child(2){flex:1;min-width:0}
+.recent-card small{display:block;font-size:10px;font-weight:500;margin-top:5px;color:#9fadc5;line-height:1.5}
+.recent-card>span:last-child{align-self:flex-start;color:#8c9abb}
+.recent-dot{width:8px;height:8px;background:linear-gradient(120deg,var(--pink),var(--violet));border-radius:100%;flex:none}
+.home-shortcuts{padding:22px 3px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.home-shortcuts button{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 9px;background:#cbd9f410;color:#cfdfef;border:1px solid #ffffff1c;border-radius:14px;font-size:12px;font-weight:800}
+.home-shortcuts button svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none}
+.step-foot{text-align:center;font-size:11px;color:#7c91ac;padding:0 0 24px}
+.results-minor{font-size:13px;color:#9bdedb;font-weight:600;vertical-align:middle}
+.dot-sep{padding:0 5px;color:#8093a9}
+.more-button{width:100%;background:linear-gradient(130deg,#dbe7f5,#bfdadd);color:#17233a;min-height:52px;border-radius:15px;font-weight:800;font-size:13px;margin:2px 0 15px}
+.more-button:active{transform:scale(.985)}
+.next-intent{width:100%;padding:15px;text-align:center;border:1px solid #ffffff20;border-radius:14px;color:#bac9dc;background:#ffffff09;font-weight:650;font-size:12px;margin:0 0 22px}
+.search-bar{margin:25px 2px 25px;display:flex;align-items:center;gap:11px;border:1px solid #a3bded65;border-radius:17px;padding:0 15px;background:#172642;min-height:58px}
+.search-bar svg{width:19px;height:19px;stroke:#9abde2;flex:none;stroke-width:2;fill:none}
+.search-bar input{border:0;background:transparent;color:#fff;font-size:16px;min-width:0;width:100%;height:54px;outline:none}
+.search-bar input::placeholder{color:#8a9bb0}
+.search-bar input::-webkit-search-cancel-button{-webkit-appearance:searchfield-cancel-button}
+.practice-track{padding:27px 8px 7px;color:#9ebbd2;font-size:12px;font-weight:750;letter-spacing:.05em}
+.flash{width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:35px 24px 30px;min-height:315px;border-radius:30px;background:radial-gradient(circle at 90% 0,#836acb34,transparent 44%),linear-gradient(140deg,#223153,#17203c 100%);box-shadow:0 25px 60px #0508114b;border:1px solid #ffffff2a;text-align:center;gap:27px;margin:12px 0 17px}
+.flash:active{transform:scale(.994)}
+.flash-label{color:#a6c8e5;font-size:10px;font-weight:800;letter-spacing:.16em}
+.flash-jp{font-size:22px;line-height:1.65;font-weight:800;color:#f6f5ff}
+.flash-line{background:#ffffff26;height:1px;width:70px;flex:none}
+.flash-answer{font-size:22px;line-height:1.5;font-weight:800;max-width:100%;overflow-wrap:anywhere;color:#a2efec}
+.flash-hint{font-size:12px;line-height:1.75;color:#a9b4cb}
+.practice-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}.practice-actions button{width:100%}
+.practice-audio{margin:12px 0 25px;padding:14px;text-align:center;display:flex;gap:8px;justify-content:center;align-items:center;color:#cddffa;background:#ffffff12;width:100%;border-radius:15px;font-size:12px;font-weight:800}
+.practice-audio svg{width:17px;height:17px}
+.guide-list{padding:22px 4px 0;display:grid;gap:12px}
+.guide-list section,.settings-box{background:#16223b;border:1px solid #ffffff1a;border-radius:20px;padding:18px 17px}
+.guide-list strong{font-size:14px;color:#f2eefb}
+.guide-list p{font-size:12px;color:#becce0;line-height:1.85;margin:8px 0 0}
+.settings-box{margin:25px 4px 17px}
+.speed-row{display:flex;gap:10px}
+.speed{border-radius:12px;flex:1;min-height:44px;border:1px solid #ffffff26;background:#ffffff0c;color:#d5dfef;font-size:12px;font-weight:700}
+.speed.active{background:#d9eafa;color:#182d42;border-color:#d9eafa}
+.setting-note{font-size:11px;color:#9eabc4;line-height:1.8;margin:12px 0 0}
+@media(max-width:385px){.small-btn{font-size:11px;padding:0 8px}.icon-btn{width:34px;min-width:34px;height:34px}.header-actions{gap:5px}.logo{font-size:15px}.footer .muted{font-size:10px}.footer button{font-size:11px;padding:10px}}
+@media(max-width:340px){.recent-list{grid-template-columns:1fr}.bubble{min-width:116px;min-height:116px;width:37vw;height:37vw}.bubble{font-size:16px}.option-grid{gap:8px}.intent{padding:15px 11px}}
+
+/* v1.1 — iOS Safari: avoid repeatedly morphing border-radius, which can cause flicker.
+   The at-rest motion is a slow compositor-friendly translation; the jelly effect happens only on tap. */
+.bubble{animation:none;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.bubble:not(.selected):not(.unselected){animation:gentleFloat 9s ease-in-out infinite;will-change:transform;}
+.bubble:nth-child(2):not(.selected):not(.unselected){animation-delay:-3s;}
+.bubble:nth-child(3):not(.selected):not(.unselected){animation-delay:-6s;}
+.bubble.unselected{animation:none;}
+.bubble.selected{animation:tapJelly .62s cubic-bezier(.28,.04,.2,1) forwards;}
+@keyframes gentleFloat{
+  0%,100%{transform:translate3d(0,0,0)}
+  50%{transform:translate3d(0,-5px,0)}
+}
+@keyframes tapJelly{
+  0%{transform:scale3d(1,1,1);opacity:1;}
+  26%{transform:scale3d(1.12,.88,1);}
+  48%{transform:scale3d(.93,1.12,1);}
+  70%{transform:scale3d(1.08,.96,1);}
+  100%{transform:scale3d(1.34,1.34,1);opacity:0;filter:blur(7px);}
+}
+html[data-bubble-motion="off"] .bubble:not(.selected):not(.unselected){animation:none;will-change:auto;}
+.motion-heading{margin-top:25px;}
+@media(prefers-reduced-motion:reduce){.bubble:not(.selected):not(.unselected){animation:none!important;}}
+
+
+
+/* v1.2: meeting conversation journeys */
+.quick-block{padding:22px 3px 0}
+.quick-label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;font-weight:850;color:#d9f0fd;letter-spacing:.04em;margin-bottom:11px}
+.quick-label small{font-size:10px;letter-spacing:.07em;color:#a5b6d0;font-weight:550}
+.quick-action-grid{display:grid;gap:10px}
+.quick-action{width:100%;display:flex;align-items:center;gap:14px;border:1px solid #bdd1ff3f;border-radius:21px;background:linear-gradient(118deg,#23375e,#172443 78%);padding:14px 15px;text-align:left;min-height:74px;transition:transform .18s}
+.quick-action:nth-child(2){background:linear-gradient(118deg,#1c4854,#162b42 80%)}
+.quick-action:nth-child(3){background:linear-gradient(118deg,#4a325c,#212541 80%)}
+.quick-action:active{transform:scale(.978)}
+.quick-action-symbol{width:45px;height:45px;border-radius:15px;flex:none;display:grid;place-items:center;background:#ffffff15;color:#f7f4ff;font-size:24px;font-weight:800}
+.quick-action strong{font-size:18px;display:block;margin-bottom:3px}
+.quick-action small{display:block;color:#c0d0e5;font-size:11px;line-height:1.55}
+.quick-action .quick-arr{margin-left:auto;font-size:20px;color:#a6b9d2}
+.old-entry-wrap{margin:27px 2px 5px}.old-entry-wrap .section-line{padding:0 3px}
+.old-entry-wrap .entry-list{padding:5px 1px 0;gap:9px}
+.old-entry-wrap .entry{min-height:69px;padding:12px 14px;border-radius:18px}
+.old-entry-wrap .entry-icon{width:42px;height:42px;border-radius:14px;font-size:20px}
+.old-entry-wrap .entry-title{font-size:14px}.old-entry-wrap .entry-sub{font-size:10px;margin-top:2px}
+.quick-map-intro{font-size:12px;line-height:1.8;color:#b6c6da;padding:3px 8px}
+.quick-top{padding-top:15px}
+.quick-menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:17px 2px 26px}
+.quick-tile{min-height:112px;border-radius:21px;border:1px solid #ffffff24;background:linear-gradient(135deg,#213456,#14243d 85%);padding:15px 13px;text-align:left;display:flex;flex-direction:column;justify-content:space-between;gap:12px}
+.quick-tile:active{transform:scale(.97)}.quick-tile b{font-size:16px;line-height:1.45}.quick-tile small{display:block;font-size:11px;color:#aabed5;line-height:1.55;margin-top:5px}.quick-tile .quick-tile-icon{font-size:23px;color:#a6e8e4}
+.ready-answers{margin:18px 2px 4px}.ready-answers .section-line{margin-bottom:11px}
+.ready-answer{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;gap:8px;background:#172e41;border-radius:15px;border:1px solid #73bfb738;padding:12px 13px;margin-bottom:7px}
+.ready-answer b{display:block;font-size:16px;line-height:1.3}.ready-answer small{display:block;color:#b5c5d6;margin-top:6px;font-size:11px}.ready-answer i{font-size:18px;font-style:normal;color:#bfece9}
+.quick-bridge{border:1px solid #8ad5d45c;border-radius:16px;padding:14px 15px;display:flex;gap:12px;align-items:center;justify-content:space-between;background:#163540;margin:15px 2px 20px;min-height:58px;width:calc(100% - 4px);text-align:left}
+.quick-bridge b{font-size:13px;color:#e5fffc}.quick-bridge small{font-size:11px;color:#b1cdcb;display:block;margin-top:4px}.quick-bridge .arr{font-size:20px}
+.explain-route{padding:12px 6px 0;color:#acbad0;font-size:11px}
+.explain-lead{padding:15px 6px 8px}.explain-lead h1{font-size:26px;line-height:1.35;margin:0 0 12px}.explain-lead p{font-size:12px;line-height:1.8;color:#b9c6da;margin:0}
+.explain-card{position:relative;background:linear-gradient(145deg,#1d2e4e,#111e34);border-radius:19px;border:1px solid #ffffff1f;margin:11px 1px;padding:15px 14px}
+.explain-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.explain-number{width:27px;height:27px;border-radius:9px;display:grid;place-items:center;background:#b5f2e7;color:#173039;font-size:12px;font-weight:900}
+.explain-step-title{font-size:12px;font-weight:800;color:#e5e8f7}.explain-step-hint{font-size:10px;color:#9fbed0;margin-left:auto}
+.explain-en{font-size:clamp(18px,5vw,22px);font-weight:800;line-height:1.55;margin:0 0 8px;white-space:pre-wrap}
+.explain-jp{font-size:12px;color:#c0d2e5;line-height:1.65;margin:0 0 7px}.explain-note{font-size:11px;color:#92aeca;line-height:1.65;margin:0}
+.explain-tools{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}.explain-tools button{font-size:11px;padding:9px 11px;background:#ffffff12;border:1px solid #ffffff1b;border-radius:11px;font-weight:750;min-height:40px}
+.explain-tools button:first-child{background:#e0f0f7;color:#173346}
+.explain-tools button:active{transform:scale(.96)}
+.explain-extras{padding:15px 4px 21px}.explain-extras .action{width:100%;margin-bottom:10px}
+.explain-caption{font-size:11px;line-height:1.75;color:#a6b7cc;margin:10px 1px 17px}
+.explain-sample{padding:16px 16px;border-radius:17px;background:#172943;border:1px dashed #ffffff30;margin:12px 0 17px}
+.explain-sample b{font-size:12px;color:#9dded7}.explain-sample p{font-size:13px;color:#e3ebf7;line-height:1.75;white-space:pre-line;margin:9px 0 0}
+.footer .reply-fast{border-color:#97dfdc70;background:#195052;color:#e4fffc;white-space:nowrap}
+@media(max-width:345px){.quick-action{padding:11px 12px}.quick-action strong{font-size:16px}.quick-tile{padding:12px 10px;min-height:110px}.quick-tile b{font-size:15px}.footer button{padding-left:10px;padding-right:10px}}
+
+
+/* v1.3 — Speak Now and Train: compact, two-tap explanation access */
+.quick-action-grid .quick-action:first-child{border-color:#97e2da78;background:linear-gradient(110deg,#244953,#172a45 80%)}
+.quick-menu-featured{display:grid;gap:10px;margin:15px 2px 8px}
+.quick-featured-tile{border:1px solid #a6e8e050;border-radius:22px;background:linear-gradient(120deg,#1e4250,#16283f);padding:16px 17px;text-align:left;min-height:105px;display:flex;align-items:center;gap:14px}
+.quick-featured-tile:nth-child(2){background:linear-gradient(120deg,#26395a,#17273e)}
+.quick-featured-tile:nth-child(3){background:linear-gradient(120deg,#35315c,#202743)}
+.quick-featured-tile .qft-icon{font-size:24px;border-radius:15px;display:grid;place-items:center;background:#ffffff17;flex:none;width:49px;height:49px}
+.quick-featured-tile b{display:block;font-size:18px}.quick-featured-tile small{display:block;margin-top:6px;font-size:11px;color:#b4c7d6;line-height:1.5}
+.quick-featured-tile i{font-style:normal;color:#b3dce6;margin-left:auto;font-size:21px}
+.quick-more-toggle{font-size:12px;background:transparent;color:#c1cedd;padding:15px 5px 10px;min-height:45px;text-align:left;width:100%}
+.quick-other-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quick-other-grid .quick-tile{min-height:91px}
+.explain-v13 .explain-lead{padding:12px 5px 10px}.explain-v13 .explain-lead h1{font-size:24px;margin:0 0 8px}
+.ex-ways{display:grid;grid-template-columns:1fr 1fr;border-radius:16px;gap:5px;background:#ffffff13;padding:5px;margin:6px 0 16px}
+.ex-way{padding:13px 6px;border-radius:12px;font-size:13px;font-weight:800;background:transparent;color:#bbcadd;border:1px solid transparent;min-height:48px}
+.ex-way.active{color:#142637;background:#dbf5f0;box-shadow:0 3px 12px #00000024}
+.ex-quickhint{font-size:11px;color:#b5c7d6;line-height:1.7;margin:8px 3px 11px}
+.ex-intent-strip{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:2px -7px 13px;padding:4px 7px 11px;flex:none}
+.ex-intent-strip::-webkit-scrollbar{display:none}
+.ex-chip{font-size:12px;min-height:42px;border-radius:13px;border:1px solid #ffffff27;background:#ffffff0d;white-space:nowrap;padding:0 13px;flex:none;font-weight:700;color:#c8d8e8}
+.ex-chip.active{background:#e5eff8;color:#152942;border-color:#e5eff8}
+.ex-hero{border-radius:27px;border:1px solid #8ee5d253;background:radial-gradient(circle at 100% 0%,#a4d5e92b,transparent 50%),linear-gradient(145deg,#193e49,#14273e 82%);padding:20px 18px 18px;box-shadow:0 16px 35px #050e1d44}
+.ex-overline{color:#aee4da;font-size:10px;letter-spacing:.14em;font-weight:850;margin:0 0 10px}
+.ex-jp-label{color:#d7e8ed;font-size:13px;font-weight:750;line-height:1.6;margin:0 0 12px}
+.ex-hero-en{font-size:clamp(22px,6.2vw,27px);font-weight:800;line-height:1.48;letter-spacing:-.025em;overflow-wrap:anywhere;margin:0 0 16px;white-space:pre-line}
+.ex-variable{color:#a8e8dc;font-weight:700}.ex-use{color:#a9c0cf;font-size:12px;line-height:1.7;margin:2px 0 15px}
+.ex-primary-acts{display:flex;gap:8px;flex-wrap:wrap}.ex-primary-acts .action{flex:1;padding:13px 9px;min-width:0;font-size:12px}
+.ex-corner-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:13px 0 5px}
+.ex-simplebtn{border:1px solid #ffffff25;border-radius:13px;background:#ffffff10;padding:12px 13px;font-size:12px;font-weight:750;min-height:44px}
+.ex-continue{background:#d9eaf4!important;color:#192c40!important}
+.ex-flow-toggle{width:100%;min-height:52px;border:1px solid #ffffff30;border-radius:15px;background:#172a44;margin:17px 0 10px;padding:14px;text-align:left;font-weight:850;font-size:13px}
+.ex-flow-list{display:grid;gap:9px;margin:8px 0 14px}.ex-flow-item{padding:13px 12px;background:#192a46;border-radius:15px;border:1px solid #ffffff18}
+.ex-flow-item strong{font-size:12px;color:#b4eadd}.ex-flow-item p{font-size:16px;line-height:1.6;font-weight:700;margin:8px 0 4px}.ex-flow-item small{font-size:11px;color:#b6c9d9;line-height:1.6}
+.ex-train-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:6px 0 13px}
+.ex-level{min-height:63px;border-radius:14px;border:1px solid #ffffff25;background:#ffffff0d;padding:9px 5px;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:5px}
+.ex-level b{font-size:12px}.ex-level small{font-size:10px;color:#a9bfd1}.ex-level.active{color:#18283b;background:#e0f1e9;border-color:#e0f1e9}.ex-level.active small{color:#3c5965}
+.ex-train-card{background:radial-gradient(circle at 5% 5%,#594a8b44,transparent 42%),linear-gradient(160deg,#222f52,#17233f);border:1px solid #b7abea42;border-radius:24px;padding:21px 17px 18px;min-height:265px}
+.ex-train-label{font-size:10px;color:#c5bdf0;letter-spacing:.14em;font-weight:800;margin-bottom:14px}
+.ex-train-cue{font-size:19px;line-height:1.6;font-weight:800;margin:0 0 17px}
+.ex-hint{border-radius:12px;padding:11px 13px;background:#ffffff15;color:#c0ddf0;font-weight:750;font-size:16px;line-height:1.6;margin:10px 0}
+.ex-train-answer{font-size:21px;font-weight:800;line-height:1.52;white-space:pre-line;color:#aff1e4;overflow-wrap:anywhere;margin:14px 0}
+.ex-timer-row{display:flex;gap:9px;align-items:center;justify-content:space-between;padding:12px 0 5px}.ex-time{font-size:12px;font-weight:750;color:#a8dbda}
+.ex-train-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.ex-train-buttons button{flex:1;min-width:110px;min-height:47px;border-radius:13px;border:1px solid #ffffff33;background:#ffffff15;font-size:12px;font-weight:800;padding:10px}
+.ex-train-buttons button.ex-primary{background:#dcefea;color:#1b2a3b}
+.ex-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:14px 0 9px}.ex-outcomes button{min-height:61px;border-radius:12px;border:1px solid #ffffff27;background:#ffffff15;font-size:11px;padding:9px 5px;line-height:1.5;font-weight:800}
+.ex-outcomes button:first-child{background:#265e53}.ex-outcomes button:nth-child(2){background:#41547d}.ex-outcomes button:nth-child(3){background:#4d3d63}
+.ex-train-summary{font-size:12px;color:#b5c7db;margin:15px 3px;line-height:1.8}
+.ex-progress-ticks{display:flex;align-items:center;gap:6px;margin:5px 2px 14px}.ex-progress-ticks span{height:4px;flex:1;background:#ffffff2b;border-radius:9px}.ex-progress-ticks span.active{background:#a7e8db}
+.ex-banner{font-size:11px;line-height:1.75;color:#9fbbd0;border-radius:15px;border:1px solid #ffffff15;background:#ffffff08;padding:12px 14px;margin-top:15px}
+@media(max-width:355px){.ex-train-buttons button{min-width:0}.ex-hero-en{font-size:21px}.ex-way{font-size:12px}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="logo"><span class="logomark">S</span>SayFlow</div>
+<div class="header-actions">
+<button class="icon-btn" id="helpButton" aria-label="使い方・設定"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.7 2.7 0 0 1 5 1.4c0 1.6-2.5 1.8-2.5 3.5M12 17.5h.01" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="icon-btn" id="findButton" aria-label="検索"><svg viewBox="0 0 24 24"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5" stroke-linecap="round"/></svg></button>
+<button class="small-btn" id="favButton" aria-label="お気に入りを表示">☆ 保存 <strong id="favCount">0</strong></button>
+</div></header>
+<div id="progress" class="progress" aria-hidden="true"></div>
+<main id="main" aria-live="polite">
+<section class="panel" style="min-height:520px;justify-content:center;gap:16px;padding:28px 9px;text-align:center">
+  <div style="font-size:54px;line-height:1">◉</div>
+  <h1 style="font-size:30px;margin:0">SayFlow</h1>
+  <p style="font-size:15px;line-height:1.85;color:#e4eafa;margin:0">このプレビューではアプリを操作できません。</p>
+  <p style="font-size:13px;line-height:1.85;color:#b2c1d5;margin:0">アプリの操作には JavaScript が必要です。ChatGPT のファイルプレビューでは動作が制限されることがあります。公開用ZIPをWebに配置し、Safariから開いてください。</p>
+  <a href="https://app.netlify.com/drop" target="_blank" rel="noopener noreferrer" style="display:block;padding:17px;border-radius:18px;text-decoration:none;background:#deebfc;color:#15213b;font-size:14px;font-weight:bold">Webアプリの公開ページへ →</a>
+  <p style="font-size:11px;color:#8ea0b9;margin:0">これはエラー表示ではなく、操作できない環境のための案内です。</p>
+</section>
+</main>
+<footer class="footer"><button id="backButton">← 戻る</button><button id="replyButton" class="reply-fast">↩ 返す</button><button id="homeButton">⌂ ホーム</button></footer>
+</div><div class="toast" id="toast" role="status"></div>
+<script>
+(()=>{'use strict';
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const config={
+ emotion:[{id:'positive',label:'ポジティブ',sub:'前向きに',a:'#ffe4a5',b:'#ffa9b9',glow:'#ff92bd3a'},{id:'negative',label:'ネガティブ',sub:'慎重に',a:'#baa9ff',b:'#6f9be1',glow:'#748be83e'},{id:'neutral',label:'ニュートラル',sub:'客観的に',a:'#b8f1db',b:'#78cae4',glow:'#64d1c540'}],
+ scene:[{id:'business',label:'ビジネス',sub:'会議・仕事',a:'#a5dbff',b:'#99a8fc',glow:'#86a1f345'},{id:'social',label:'交流',sub:'ネットワーキング',a:'#ffe3aa',b:'#ff9fba',glow:'#ff9eae45'}],
+ relation:[{id:'everyday',label:'日常の相手',sub:'店員・隣人など',a:'#b2efd8',b:'#7acdc9',glow:'#7bddbe49'},{id:'close',label:'親しい相手',sub:'友人・家族など',a:'#e8b8ff',b:'#ff9ec7',glow:'#bb83d947'}]
+};
+const intents={
+ positive:[['agree','同意する','意見に賛成','◎','#294d65'],['praise','褒める','良さを伝える','✦','#4c356b'],['glad','喜びを伝える','嬉しい・よかった','♡','#4e414c'],['thanks','感謝する','お礼を伝える','☀','#655137'],['encourage','励ます','背中を押す','↗','#305749'],['understand','共感する','気持ちを受け取る','≈','#3a4e75']],
+ negative:[['disagree','反対する','違う意見を述べる','↔','#4b3f6c'],['concern','懸念を伝える','心配・リスク','△','#544658'],['refuse','断る','角を立てずに','×','#36516a'],['dissatisfied','不満を伝える','問題点を示す','!','#604450'],['apologize','謝る','謝罪・配慮','↶','#4b5371'],['difficulty','困っている','助けを求める','?','#365467']],
+ neutral:[['confirm','確認する','理解を合わせる','✓','#354f63'],['ask','質問する','情報を尋ねる','?','#384a6e'],['explain','説明する','状況を伝える','→','#444e66'],['opinion','意見を述べる','考えを共有','◇','#514565'],['switch','話題を変える','次の話へ','↗','#30545b'],['pause','時間を稼ぐ','考える余裕を作る','…','#585044']]
+};
+// Each entry: [English chunk, Japanese sense, nuance, tags, tone]
+const data={
+ agree:[
+ ['Exactly.','まさにそうです。','短く、はっきり賛成するとき。','all','強い同意'],
+ ['I agree with you on that.','その点は同意します。','ビジネスでも日常でも使える明確な同意。','all','明確な同意'],
+ ["I'm with you on that.",'その点は私も同じ考えです。','自然で少しくだけた表現。','social,close,everyday','自然な同意'],
+ ["That's how I see it, too.",'私もそういう見方です。','意見・見解を同じくするとき。','business,social,close','見解の一致'],
+ ["We're on the same page.",'認識が一致していますね。','特に仕事で、考えや理解が揃ったとき。','business','認識の一致'],
+ ["I feel the same way.",'私も同じ気持ちです。','考えよりも感情への同意。','close,social','気持ちの一致']
+ ],
+ praise:[["That's a great point.",'それはすごく良い指摘ですね。','相手の発言を評価する。','all','指摘を褒める'],["You did a great job.",'素晴らしい仕事でした。','成果や頑張りを褒める。','all','成果を褒める'],["I really like how you handled that.",'その対応、すごく良いと思います。','具体的な行動を褒める。','business,close,social','対応を褒める']],
+ glad:[["That's great news!",'それは良い知らせですね！','相手の知らせを一緒に喜ぶ。','all','喜び'],["I'm so glad to hear that.",'それを聞いて本当に嬉しいです。','うれしい報告への温かい返答。','all','喜び'],["That made my day.",'おかげで今日が良い日になりました。','嬉しい出来事を少し感情豊かに表す。','social,close','喜び']],
+ thanks:[["I really appreciate it.",'本当に感謝しています。','丁寧で自然な感謝。','all','感謝'],["Thanks for taking the time.",'時間を取ってくれてありがとう。','会議や相談の後に便利。','business,social','感謝'],["That means a lot to me.",'私にとって本当に大きなことです。','個人的に大切な助けへのお礼。','close,social','深い感謝']],
+ encourage:[["You've got this.",'あなたならできるよ。','親しい相手を励ます。','social,close','励ます'],["I think you're on the right track.",'良い方向に進んでいると思います。','相手の取り組みを肯定する。','all','背中を押す'],["Keep it up.",'その調子で。','今の行動を続けてほしいとき。','all','励ます']],
+ understand:[["I can see why you feel that way.",'そう感じる理由が分かります。','賛成とは限らず、感情を受け止める。','all','共感'],["That sounds really tough.",'それは本当に大変そうですね。','相手の苦労に寄り添う。','all','共感'],["I hear you.",'言いたいこと、伝わっています。','相手の考えや不満を理解したという合図。','business,social,close','受け止める']],
+ disagree:[["I see it a little differently.",'私は少し違う見方をしています。','穏やかに異論を述べる。','all','やわらかい反対'],["I'm not sure I agree with that.",'その点には少し賛成しかねます。','断定を避けて反対する。','all','反対'],["I see your point, but...",'おっしゃることは分かりますが……','相手を認めてから異論へつなぐ。','business,social','前置き']],
+ concern:[["One concern I have is...",'一つ懸念しているのは……','会議でリスクを切り出す定番。','business','懸念'],["I'm a little worried about that.",'それは少し心配です。','身近な場面でも言いやすい。','all','心配'],["We may want to think this through.",'もう少し慎重に考えた方がよさそうです。','やわらかい提案として懸念を示す。','business,social','慎重さ']],
+ refuse:[["I'm afraid I can't make it.",'残念ですが参加できません。','予定や誘いを断る。','all','断る'],["I won't be able to do that.",'それは対応できません。','できないことを明確に伝える。','all','断る'],["Could we try another time?",'別の機会にできますか？','断りつつ代案を出す。','all','代案']],
+ dissatisfied:[["I was hoping for something different.",'少し違うものを期待していました。','責めずに期待との差を伝える。','all','不満'],["This isn't quite what I expected.",'これは少し期待していたものと違います。','サービスや成果物へのフィードバック。','all','不満'],["I think there's room for improvement.",'改善の余地があると思います。','仕事上で控えめに課題を述べる。','business','改善']],
+ apologize:[["I'm sorry about that.",'それは申し訳ありません。','自然で幅広い謝罪。','all','謝罪'],["I should have explained that better.",'もっと分かりやすく説明すべきでした。','自分の説明不足を認める。','all','謝罪'],["Sorry for the confusion.",'混乱させてしまいすみません。','仕事で使いやすい簡潔な謝罪。','business,social','謝罪']],
+ difficulty:[["I'm having trouble with this.",'これがうまくいかなくて困っています。','困っている状況を伝える。','all','困りごと'],["Could you give me a hand?",'ちょっと手伝ってもらえますか？','日常の自然な依頼。','everyday,close,social','助けを求める'],["I'm not sure how to move forward.",'次にどう進めばいいか分かりません。','進行上の行き詰まりを伝える。','business,close','困りごと']],
+ confirm:[["Just to confirm, ...",'確認ですが、……','会議や仕事の確認に最適。','business,social','確認'],["So, you mean... ?",'つまり……という意味ですか？','理解のすり合わせ。','all','確認'],["Did I get that right?",'私の理解で合っていますか？','相手の説明を確認する。','all','確認']],
+ ask:[["Can I ask you something?",'一つ聞いてもいいですか？','話しかける自然な入り口。','all','質問'],["What do you think about that?",'それについてどう思いますか？','意見を尋ねる。','all','質問'],["Could you tell me a bit more?",'もう少し詳しく教えてもらえますか？','説明を深掘りするとき。','all','質問']],
+ explain:[["Here's what happened.",'何があったかというと……','経緯説明のシンプルな入り口。','all','説明'],["The main point is...",'大事な点は……','要点から話すとき。','all','要点'],["Let me give you some context.",'少し背景を説明させてください。','仕事の会話で背景を補足する。','business,social','背景']],
+ opinion:[["I think...",'私は……と思います。','基本の意見表明。','all','意見'],["The way I see it, ...",'私の見方では……','自然な口語で考えを述べる。','all','意見'],["From my perspective, ...",'私の立場からすると……','仕事でも使える視点の提示。','business,social','意見']],
+ switch:[["By the way, ...",'ところで……','話題を軽く変える。','all','話題転換'],["Speaking of that, ...",'それで思い出したのですが……','関連した話題へ移る。','all','関連づけ'],["Moving on to...",'次に……へ移ります。','会議で議題を切り替える。','business','進行']],
+ pause:[["Let me think for a second.",'ちょっと考えさせてください。','沈黙を自然に埋める。','all','時間を稼ぐ'],["That's a good question.",'良い質問ですね。','考える時間を作れるが、本当にそう思う場合に。','all','間を取る'],["How should I put this...",'何と言えばいいかな……','言い方を探すときの表現。','close,social,business','言いよどみ']]
+};
+
+// Additional expressions for the first release.
+const more = {
+  agree:[
+    ["That's exactly what I was thinking.","まさに私もそう思っていました。","相手が自分の考えを言語化してくれたとき。","all","強い同意"],
+    ["Absolutely.","まったくそのとおりです。","短く強く肯定。声のトーン次第で熱量を調整できます。","all","強い同意"],
+    ["That makes sense to me.","なるほど、納得できます。","理解・納得の表明。必ずしも全面的な賛成ではありません。","all","納得"],
+    ["I think you're right.","あなたの言うとおりだと思います。","相手の判断に賛成するとき。","all","同意"]
+  ],
+  praise:[
+    ["Good catch.","よく気づきましたね。","見落としや誤りを発見した相手に。","business,social","気づきを褒める"],
+    ["That's really impressive.","それは本当にすごいですね。","成果やスキルを素直に褒める。","all","感心"],
+    ["I like the way you put that.","その言い方、いいですね。","表現や説明が的確だったとき。","business,social,close","説明を褒める"]
+  ],
+  glad:[
+    ["I'm happy for you.","自分のことのように嬉しいです。","相手の成功や幸せに対して使う。","social,close","相手を祝う"],
+    ["What a relief!","本当によかった！","心配事が解消したとき。","all","安堵"],
+    ["I'm looking forward to it.","楽しみにしています。","今後の予定に前向きな期待を示す。","all","期待"]
+  ],
+  thanks:[
+    ["Thanks, that really helps.","ありがとう、本当に助かります。","日常的で使いやすい感謝。","all","助けへの感謝"],
+    ["I couldn't have done it without you.","あなたなしではできませんでした。","大きなサポートを受けたとき。","all","深い感謝"],
+    ["I appreciate you bringing that up.","その点を挙げてくれて感謝します。","会議での有益な指摘に。","business","指摘への感謝"]
+  ],
+  encourage:[
+    ["You're making great progress.","着実に進歩していますよ。","成長を具体的に認める。","all","前進を伝える"],
+    ["It's worth giving it a try.","試してみる価値はあります。","挑戦を後押しする。","all","背中を押す"],
+    ["Don't be too hard on yourself.","そんなに自分を責めないで。","親しい相手へのいたわり。","close,social","いたわる"]
+  ],
+  understand:[
+    ["I totally get what you mean.","言いたいこと、すごく分かります。","親しい間柄での自然な共感。","social,close","共感"],
+    ["That must have been frustrating.","それはもどかしかったでしょうね。","相手の体験を推し量る。","all","気持ちを理解"],
+    ["I can imagine.","想像できます。","短く共感を示す。軽く聞こえないよう声のトーンに注意。","all","共感"]
+  ],
+  disagree:[
+    ["I see where you're coming from, but...","言いたいことは分かりますが……","配慮しながら異なる見解へ進む。","all","やわらかい反対"],
+    ["Can I offer another perspective?","別の見方を提案してもいいですか？","会議で対立を抑えつつ異論を出す。","business,social","切り出し"],
+    ["I have a slightly different take.","少し違う見方をしています。","カジュアルな会議でも使いやすい。","business,social","別の見方"]
+  ],
+  concern:[
+    ["I'm concerned about the timing.","時期が少し気になっています。","スケジュールへの懸念を具体的に示す。","business","懸念"],
+    ["What worries me is...","私が心配しているのは……","一番の不安材料を示す。","all","懸念"],
+    ["There may be a risk of...","……というリスクがあるかもしれません。","断定せず潜在リスクを挙げる。","business","リスク"]
+  ],
+  refuse:[
+    ["I'd love to, but I can't this time.","ぜひそうしたいのですが、今回は難しいです。","誘いを感じよく断る。","social,close,everyday","誘いを断る"],
+    ["I don't think I can commit to that.","それを引き受けるのは難しいと思います。","仕事などで責任を伴う約束を避ける。","business,social","引き受けを断る"],
+    ["Thanks for asking, but I'll pass.","誘ってくれてありがとう。でも今回は遠慮します。","ややカジュアル。仕事の重要案件には慎重に。","social,close","丁寧に辞退"]
+  ],
+  dissatisfied:[
+    ["I was a little disappointed.","少し残念でした。","攻撃せず率直に気持ちを示す。","all","落胆"],
+    ["Could we look at a better way to do this?","もっとよい方法を考えられますか？","不満を改善提案に変える。","business,social","改善提案"],
+    ["I'm not comfortable with that approach.","その進め方には抵抗があります。","考え方・方針への懸念を伝える。","business,social","違和感"]
+  ],
+  apologize:[
+    ["That's on me.","それは私の責任です。","率直だが少しカジュアルな責任の認め方。","business,social,close","責任を認める"],
+    ["I didn't mean to cause any confusion.","混乱させる意図はありませんでした。","意図と影響を分けて伝える。必要なら謝罪も添える。","all","説明"],
+    ["I apologize for the delay.","遅くなり申し訳ありません。","メールやビジネスでの丁寧な謝罪。","business","遅延への謝罪"]
+  ],
+  difficulty:[
+    ["I'm stuck on this part.","この部分で行き詰まっています。","どこで困っているかを簡潔に伝える。","all","行き詰まり"],
+    ["Could you walk me through it?","順を追って説明してもらえますか？","手順や仕組みを教わるとき。","business,social","助けを求める"],
+    ["I'm struggling to explain this clearly.","うまく説明できなくて苦労しています。","言葉が出ないときにも使える。","all","説明に苦戦"]
+  ],
+  confirm:[
+    ["Let me make sure I understand.","理解できているか確認させてください。","質問の前置きに便利。","all","確認の前置き"],
+    ["Are we aligned on this?","この点で認識は一致していますか？","会議で方向性の合意を確認。","business","合意確認"],
+    ["Is that correct?","それで合っていますか？","自分の理解や情報の正しさを確かめる。","all","正確さの確認"]
+  ],
+  ask:[
+    ["One thing I'm curious about is...","一つ気になっているのは……","自然に質問を切り出す。","all","切り出し"],
+    ["How does that work?","それはどういう仕組みですか？","方法・仕組みを知りたいとき。","all","仕組み"],
+    ["Would you mind clarifying that?","その点を明確にしてもらえますか？","仕事でも使いやすい丁寧な確認。","business,social","明確化"]
+  ],
+  explain:[
+    ["To give you a quick overview, ...","簡単に全体像を説明すると……","要点から説明を始める。","business,social","全体像"],
+    ["What I'm trying to say is...","私が言いたいのは……","伝わりにくい説明を言い直すとき。","all","言い直し"],
+    ["In other words, ...","言い換えると……","別の表現で説明する。","all","言い換え"]
+  ],
+  opinion:[
+    ["My take is that...","私の考えでは……","カジュアルで自然な意見表明。","business,social,close","意見"],
+    ["If you ask me, ...","私に言わせれば……","くだけた口調。場面によっては強めに聞こえる。","social,close","意見"],
+    ["I'd say...","私なら……と言いますね。","断定しすぎない自然な口語。","all","意見"]
+  ],
+  switch:[
+    ["That reminds me, ...","それで思い出しましたが……","前の話に関連する話題へ移る。","all","関連づけ"],
+    ["Before we move on, ...","次に進む前に……","会議で一つ確認したいとき。","business,social","会議進行"],
+    ["On a different note, ...","話は変わりますが……","やや改まった話題転換。","business,social","話題転換"]
+  ],
+  pause:[
+    ["Give me a second.","ちょっと待ってください。","気軽に時間をもらう。","all","間を作る"],
+    ["Let me put it this way.","こう言うと分かりやすいかもしれません。","伝え方を整理し直すとき。","all","言い直し"],
+    ["I need a moment to think about that.","少し考える時間が必要です。","会議でも使いやすい丁寧な保留。","business,social","時間をもらう"]
+  ]
+};
+Object.keys(more).forEach(key=>{data[key].push(...more[key])});
+
+
+// Meeting journeys: communication action first; emotional tone / context can be chosen later.
+// Phrase entries: English, Japanese, usage, scene tags, speech act
+const quickCatalog={
+  explain:[
+    {id:'service',label:'サービス・プログラム',sub:'目的・料金・システム・制限',icon:'✧',featured:true},
+    {id:'operation',label:'業務フロー',sub:'申請 → ケース化 → チーム処理',icon:'↪',featured:true},
+    {id:'status',label:'状況・進捗',sub:'ほぼ完了・確認中・返事待ち',icon:'◉',featured:true},
+    {id:'program',label:'プログラム（詳しく）',sub:'対象・内容・実施方法も説明',icon:'◇'},
+    {id:'issue',label:'問題・原因',sub:'問題・影響・調査・対応',icon:'△'},
+    {id:'proposal',label:'提案・変更',sub:'提案・目的・効果・次の一手',icon:'↗'}
+  ],
+  ask:[
+    {id:'ask_overview',label:'概要を聞く',sub:'何をするもの？',icon:'◇'},
+    {id:'ask_reason',label:'理由を聞く',sub:'なぜ？背景は？',icon:'? '},
+    {id:'ask_process',label:'やり方を聞く',sub:'どう動く？手順は？',icon:'↪'},
+    {id:'ask_owner',label:'担当・時期',sub:'誰が？いつ？',icon:'◷'},
+    {id:'ask_scope',label:'対象・条件',sub:'例外は？誰が対象？',icon:'▣'},
+    {id:'ask_clarify',label:'確認・聞き返す',sub:'もう一度・つまり？',icon:'◎'}
+  ],
+  reply:[
+    {id:'reply_got',label:'理解した',sub:'なるほど・わかった',icon:'✓'},
+    {id:'reply_restate',label:'理解を確認',sub:'つまりこういうこと？',icon:'↺'},
+    {id:'reply_follow',label:'追加で聞く',sub:'もう一つだけ質問',icon:'+'},
+    {id:'reply_thanks',label:'お礼・締める',sub:'助かった・ありがとう',icon:'✧'},
+    {id:'reply_action',label:'次の行動へ',sub:'私が対応します',icon:'↗'},
+    {id:'reply_lost',label:'まだ分からない',sub:'例を聞く・言い直してもらう',icon:'…'},
+    {id:'reply_hold',label:'持ち帰る',sub:'確認して回答する',icon:'◷'}
+  ]
+};
+const quickMeta={
+  explain:{eye:'EXPLAIN',title:'何を説明する？',desc:'説明する内容を選んで、すぐ使える「話す順番」を表示。'},
+  ask:{eye:'ASK',title:'何を聞きたい？',desc:'英語で質問を切り出すための型を、目的別に表示。'},
+  reply:{eye:'REPLY',title:'どう返したい？',desc:'答えを聞いた直後に使える、自然なひと言を表示。'}
+};
+const quickPhrases={
+ ask_overview:[
+  ['Could you give me a quick overview?','ざっくり概要を教えてもらえますか？','説明をお願いする自然な一言。','all','概要'],
+  ['What is this program designed to do?','このプログラムは何を目的としていますか？','目的にフォーカスした質問。','business','目的'],
+  ['Who is this mainly for?','主に誰を対象にしていますか？','サービスや施策の対象を尋ねる。','business,social','対象'],
+  ['What does it cover?','具体的に何をカバーしていますか？','サービス・研修などの範囲を聞く。','business','範囲']
+ ],
+ ask_reason:[
+  ["What's the thinking behind that?",'その背景にある考えは何でしょうか？','責めずに理由を聞ける口語表現。','business,social','背景'],
+  ['What led to that decision?','その判断に至った理由は何ですか？','意思決定の経緯を知りたいとき。','business','判断'],
+  ['Is there a particular reason for that?','それには何か特別な理由がありますか？','反論に聞こえにくい尋ね方。','all','理由'],
+  ['What problem are we trying to solve?','何を解決するための取り組みですか？','目的を引き出す。','business','課題']
+ ],
+ ask_process:[
+  ['How does this work in practice?','実際の運用では、どう動きますか？','構想ではなく実務を聞く。','business','実務'],
+  ['Could you walk me through the process?','一連の流れを説明してもらえますか？','最初から順番に説明してほしいとき。','business','手順'],
+  ['What happens after that?','その後はどうなりますか？','流れの次のステップを聞く。','all','次の工程'],
+  ['How do we handle exceptions?','例外はどのように対応しますか？','通常フロー以外を確認する。','business','例外']
+ ],
+ ask_owner:[
+  ["Who's responsible for this part?",'この部分は誰が担当しますか？','担当部署や責任者を確認する。','business','担当'],
+  ["What's the timeline for this?",'これはどのくらいのスケジュールですか？','時期を広く尋ねる。','business','時期'],
+  ['When can we expect an update?','次の進捗共有はいつ頃でしょうか？','報告タイミングを聞く。','business','更新'],
+  ['Who should I follow up with?','誰にフォローアップすればいいですか？','確認先を尋ねる。','business','窓口']
+ ],
+ ask_scope:[
+  ['Does this apply to all members?','これは全会員が対象ですか？','対象範囲の確認。','business','対象'],
+  ['Are there any exceptions we should know about?','把握しておくべき例外はありますか？','運用の落とし穴を確認。','business','例外'],
+  ['What are the eligibility requirements?','利用資格の条件は何ですか？','対象可否の要件を聞く。','business','条件'],
+  ['What happens if someone is not eligible?','対象外の場合はどうなりますか？','例外時の扱いを聞く。','business','対象外']
+ ],
+ ask_clarify:[
+  ['Sorry, could you say that again?','すみません、もう一度お願いできますか？','聞き取れなかったとき。','all','聞き返し'],
+  ['Just to clarify, are you saying ...?','確認ですが、つまり……ということですか？','発言内容を慎重に確認。','all','確認'],
+  ['What do you mean by ...?','……というのはどういう意味ですか？','分からない用語や説明を確認。','all','意味'],
+  ['Could you give me an example?','例を一つ挙げてもらえますか？','抽象的な説明の具体例を聞く。','all','例示']
+ ],
+ reply_got:[
+  ['Got it, thanks.','わかりました、ありがとう。','最短で自然な受け止め。','all','理解'],
+  ['That clears it up, thanks.','これで疑問が解けました、ありがとう。','分からなかった点が明確になったとき。','all','解決'],
+  ['Okay, that makes sense.','なるほど、筋が通っていますね。','説明に納得したとき。','all','納得'],
+  ['I see what you mean.','言いたいことが分かりました。','相手の意図を理解したとき。賛成とは限らない。','all','理解']
+ ],
+ reply_restate:[
+  ['So, just to make sure I understand, ...','つまり、私の理解を確認すると……','理解確認の前置きとして自然。','business,social','前置き'],
+  ['If I understand correctly, ...','私の理解が正しければ……','要点を言い換えて確認する。','all','確認'],
+  ['So the next step is [the review], right?','次のステップは［レビュー］ということですね？','行動を要約して確認。［ ］を置き換える。','business','次の一手'],
+  ['Let me repeat that back to make sure I got it.','理解できているか、言い直してみますね。','複雑なオペレーション確認に。','business','復唱']
+ ],
+ reply_follow:[
+  ['One quick follow-up: ...','一点だけ追加で質問です。','回答の直後に質問を続ける。','business,social','追加'],
+  ['Does that mean ...?','ということは……という意味ですか？','回答から導かれる結論を確認。','all','意味'],
+  ['And how would that work for [new members]?','では［新規会員］の場合はどうなりますか？','対象を変えて具体化する。','business','具体化'],
+  ['Can I ask one more thing?','もう一つ質問していいですか？','気軽な追加質問。','all','追加']
+ ],
+ reply_thanks:[
+  ["Thanks, that's helpful.",'ありがとう、参考になります。','会議で使いやすい短い返答。','all','感謝'],
+  ['I appreciate the explanation.','説明してくれてありがとうございます。','少し丁寧な感謝。','all','感謝'],
+  ['That answers my question. Thank you.','これで質問は解決しました。ありがとうございます。','質問を締めくくる。','all','完了'],
+  ['Thanks for walking me through that.','順を追って説明してくれてありがとう。','運用や手順を教わったあと。','business,social','感謝']
+ ],
+ reply_action:[
+  ["Okay, I'll follow up with the team.",'では、チームに確認します。','次の行動を宣言。','business','確認'],
+  ["Got it. I'll take it from here.",'了解しました。この先は私が引き受けます。','自分が引き継ぐ場合のみ使う。','business','引継ぎ'],
+  ["I'll share an update once I know more.",'詳細が分かったら共有します。','確約できない段階での進捗共有。','business','更新'],
+  ["Let's make sure we're aligned on the next step.",'次のステップの認識を合わせましょう。','会議の締めに。','business','合意']
+ ],
+ reply_lost:[
+  ["Sorry, I'm not quite following.",'すみません、少し理解が追いついていません。','相手の説明についていけないとき。','all','聞き直し'],
+  ['Could you give me a concrete example?','具体例を出してもらえますか？','抽象的な説明を具体化したいとき。','all','具体例'],
+  ['Can we go over that last part again?','最後の部分をもう一度確認できますか？','部分的に聞き直す。','all','再確認'],
+  ["I think I missed one point.",'一点聞き漏らしたと思います。','やわらかく戻ってもらう。','all','聞き漏らし']
+ ],
+ reply_hold:[
+  ['Let me check on that and get back to you.','確認して、あとでご連絡します。','今すぐ回答できないとき。','all','持ち帰る'],
+  ["I don't want to give you the wrong information.",'不正確なことをお伝えしたくないので。','確認する必要性を丁寧に説明。','business,social','慎重な回答'],
+  ['Can I confirm that and follow up?','確認してから回答してもいいですか？','一度持ち帰る許可を求める。','business','持ち帰る'],
+  ["I'll need to double-check that.",'そこは再確認が必要です。','事実確認を示す。','business,social','再確認']
+ ]
+};
+Object.entries(quickPhrases).forEach(([k,v])=>{data[k]=v});
+const explanationFlows={
+ status:{label:'状況・進捗',desc:'「結論 → 完了 → 現在 → 課題 → 次」の順番。細かい経緯を最初から話さない。',sample:'Here’s where we stand. We’ve completed the initial review. We’re now working on the next step. The main challenge is timing. We’ll share another update next week.',steps:[
+  ['切り出し',"Here's where things stand.",'まず現在地をお伝えします。','話の目的を伝える',["Let me give you a quick update.","Here's a quick status update."]],
+  ['完了したこと',"We've completed [the initial review].",'［初期レビュー］は完了しました。','何が終わったかを短く',["So far, we've finished [the first phase].","We've already taken care of [the setup]."]],
+  ['進行中',"We're currently working on [the next step].",'現在［次の工程］に取り組んでいます。','現在進行形で現在地を説明',["Right now, we're focused on [testing].","At the moment, we're reviewing [the process]."]],
+  ['課題',"The main challenge is [timing].",'主な課題は［スケジュール］です。','論点を一つに絞る',["One thing we're still working through is [the timing].","The key issue right now is [the handoff]."]],
+  ['次の一手',"Next, we'll [confirm the timeline].",'次に［日程を確認］します。','次の行動で締める',["Our next step is to [run a test].","We'll share an update once [the review is complete]."]]
+ ]},
+ program:{label:'プログラム',desc:'「目的 → 対象 → 内容 → 実際の動き → 注意点」で説明する。',sample:'The goal of this program is to help new members get started. It is mainly for people who recently joined. It covers the basics of using their benefits. Our team runs the sessions and answers questions. One thing to note is that some topics may require a separate follow-up.',steps:[
+  ['何のため？',"The goal of this program is to [help new members get started].",'このプログラムの目的は［新規会員の利用開始を支援］することです。','まず存在理由を一文で',["This program is designed to [help people understand their options].","The idea behind this program is to [make the process easier]."]],
+  ['誰に向けて？',"It's mainly for [new members].",'主な対象は［新規会員］です。','対象を先に明示',["The target audience is [new members].","It's intended for [people who need additional support]."]],
+  ['何を提供？',"It covers [the basics of using the service].",'［サービス利用の基本］を扱います。','内容やベネフィットを簡潔に',["Participants learn how to [use the service].","It gives people a chance to [ask questions]."]],
+  ['どう実施？',"Our team handles [the sessions and follow-up].",'当チームが［セッションとフォローアップ］を担当します。','運用者の役割を示す',["In practice, we [run sessions twice a month].","The process starts with [an invitation]."]],
+  ['注意点',"One thing to keep in mind is [eligibility].",'注意点は［対象資格］です。','例外や条件があるときだけ',["It's also worth noting that [the details may vary].","For more complex cases, we [follow up separately]."]]
+ ]},
+ service:{label:'サービス',desc:'顧客目線で「何ができる → メリット → 使い方 → 条件 → サポート」。',sample:'This service helps members manage their bookings. Members can check their options online. To get started, they sign in to their account. Availability may vary. If they need help, they can contact the support team.',steps:[
+  ['何ができる？',"This service helps members [manage their bookings].",'このサービスは会員が［予約を管理する］ためのものです。','最初に「何の役に立つか」',["With this service, members can [check their options].","The service is designed to make it easier to [manage reservations]."]],
+  ['メリット',"It makes it easier to [check options online].",'［オンラインで選択肢を確認］しやすくなります。','顧客が得られる価値を説明',["The main benefit is [convenience].","It saves members time when they [make requests]."]],
+  ['利用方法',"To get started, they [sign in to their account].",'使い始めるには［アカウントにログイン］します。','最初の行動を具体的に',["Here's how it works: first, [sign in].","Once they're signed in, they can [choose an option]."]],
+  ['条件・制約',"One thing to note is that [availability may vary].",'［空き状況は変動する］点にご注意ください。','誤解がないよう条件を補足',["It depends on [eligibility].","There may be some restrictions depending on [the membership type]."]],
+  ['問い合わせ先',"If they need help, they can [contact the support team].",'困った場合は［サポート窓口に連絡］できます。','安心できる次の手段で締める',["For more details, they can [check the website].","Our team can help if [something doesn't work]."]]
+ ]},
+ operation:{label:'業務フロー',desc:'「全体像 → 最初 → 引き継ぎ → 完了条件 → 例外」の順で迷子にさせない。',sample:'Here’s how the process works. First, the member submits a request. Then, our team reviews the details. Once we confirm eligibility, we move to the next step. If there’s an issue, we escalate it to the right team.',steps:[
+  ['全体像',"Here's how the process works.",'業務の流れはこうなっています。','全体の説明を始める',["Let me walk you through the process.","There are a few steps involved."]],
+  ['最初',"First, [the member submits a request].",'まず［会員が申請を送ります］。','起点を明確に',["It starts when [we receive a request].","The first step is to [review the request]."]],
+  ['担当・引き継ぎ',"Then, [our team reviews the details].",'その後［当チームが内容を確認］します。','誰が何をするか',["Next, [the system checks the record].","At that point, [we pass it to another team]."]],
+  ['完了条件',"Once [eligibility is confirmed], we [move to the next step].",'［資格確認が取れたら］［次へ進みます］。','条件と次の工程をセットで',["After [the review is complete], we [notify the member].","We close the case once [the update is confirmed]."]],
+  ['例外対応',"If there's an issue, we [escalate it to the right team].",'問題があれば［担当チームにエスカレーション］します。','通常と例外を区別',["If the member isn't eligible, we [explain the options].","For exceptions, we [review the case manually]."]]
+ ]},
+ issue:{label:'問題・原因',desc:'「現象 → 影響 → 原因の確度 → 暫定対応 → 更新」で説明する。',sample:'We’ve run into an issue with the booking process. Some requests are not going through. We’re still looking into the cause. In the meantime, we’re reviewing affected cases manually. We’ll share an update once we know more.',steps:[
+  ['何が起きた？',"We've run into an issue with [the booking process].",'［予約フロー］に問題が発生しています。','現象を先に示す',["We've noticed an issue with [the system].","We're seeing a problem with [some requests]."]],
+  ['影響',"This is affecting [some member requests].",'［一部の会員申請］に影響しています。','影響範囲が確実な場合だけ',["As far as we know, it affects [a limited number of cases].","This may impact [processing times]."]],
+  ['原因の確度',"We're still looking into the cause.",'原因は現在調査中です。','原因未確定なら断定しない',["We haven't confirmed the cause yet.","It appears to be related to [the handoff], but we're still checking."]],
+  ['当面の対応',"In the meantime, we're [reviewing cases manually].",'その間［手作業でケースを確認］しています。','一時対応を示す',["For now, we're [handling urgent cases separately].","As a workaround, we're [using a manual process]."]],
+  ['次の共有',"We'll share an update once we know more.",'追加情報が分かったら共有します。','不確かな期限を約束しない',["We'll keep the team posted.","Our next step is to [confirm the scope]."]]
+ ]},
+ proposal:{label:'提案・変更',desc:'「提案 → 目的 → メリット → 懸念 → 次の一手」で簡潔に話す。',sample:'I’d like to suggest a small change to the process. The goal is to reduce manual work. This would help the team respond faster. One thing we need to consider is the impact on other teams. If that sounds good, we can test it first.',steps:[
+  ['提案',"I'd like to suggest [a small change to the process].",'［業務フローの小さな変更］を提案したいです。','何を提案するか',["One option would be to [simplify the approval step].","Here's what I'd propose."]],
+  ['目的・理由',"The goal is to [reduce manual work].",'目的は［手作業を減らす］ことです。','理由は短い一文で',["The reason I'm suggesting this is [the delay].","We're trying to solve [a recurring issue]."]],
+  ['期待効果',"This would help us [respond faster].",'これにより［対応速度を上げられます］。','相手にとっての価値',["The main benefit would be [better consistency].","That could make the process easier for [the team]."]],
+  ['気になる点',"One thing we'd need to consider is [the impact on other teams].",'検討すべき点は［他チームへの影響］です。','反対意見にも先回り',["The trade-off is [additional setup work].","We'd need to confirm [the resources] first."]],
+  ['次の一手',"If that sounds good, we can [test it first].",'よければ［まず試験運用］できます。','意思決定につなげる',["I'd suggest we start with [a pilot].","Does that approach make sense to you?"]]
+ ]}
+};
+
+
+// v1.3: real situations provided by the user, anonymized for a public static app.
+// Keep all examples generic: never embed meeting transcripts, personal names, or client records.
+explanationFlows.service={label:'サービス・プログラム',desc:'まず目的を話す。必要に応じて「手数料・使用システム・制限・処理方法」を付け足す。',sample:'This program is designed to help members use the service more easily. The fee is [amount] per transaction. We use our CRM system to process requests. One limitation is that [restriction].',steps:[
+ ['目的','This program is designed to help members [goal].','このプログラムはメンバーが［目的］を達成できるように設計されています。','まず「何のためか」を伝える。', ['The main purpose of this program is to [goal].','It helps members [goal].']],
+ ['手数料','The fee is [amount] per [transaction].','手数料は［取引］あたり［金額］です。','金額と課金単位をセットで。',['There is a [amount] fee for [service].','The service costs [amount] per [transaction].']],
+ ['使用システム','We use [our CRM system] to process the requests.','申請処理には［CRMシステム］を使っています。','どのシステムで何をするか。',['The requests are managed through [our CRM system].','We handle the requests in [our CRM system].']],
+ ['制限・条件','One limitation is that [restriction].','制限の一つは［条件］です。','制限がない場合はこのステップを飛ばす。',['There are some restrictions on [usage].','This is only available to [eligible members].']],
+ ['処理の流れ',"Here's how it works. First, [step one]. Then, [step two].",'流れはこうです。まず［工程1］、次に［工程2］です。','2つの工程だけで十分ならそこで止める。',['The process starts when [trigger], and then [next step].', 'In practice, we [first action] and then [second action].']]
+]};
+explanationFlows.operation={label:'業務フロー',desc:'起点 → システム → 担当者 → 次の処理。時系列の短い英文をつなげる。',sample:"Here's how the process works. When a member submits a request, it appears as a case in our CRM system. Then someone on my team reviews and processes it.",steps:[
+ ['文頭',"Here's how the process works.",'業務の流れを説明します。','まずはこの一文で話し始める。',['Let me walk you through the process.','The process is pretty straightforward.']],
+ ['申請・ケース化','When a member submits a request, it appears as a case in our CRM system.','メンバーが申請すると、CRM上にケースとして表示されます。','When [きっかけ], [結果] の型。',['Once a member submits a request, a case is created in our CRM system.','It starts when a member submits a request.']],
+ ['チームが処理','Then someone on my team reviews and processes it.','その後、私のチームのメンバーが確認・処理します。','Then + 主語 + 動作。',['From there, our team handles the case.','Our team then reviews the request.']],
+ ['不足時の対応','If anything is missing, we follow up for more information.','不足があれば、追加情報を確認します。','例外がなければ省略できる。',['If we need more information, we contact the member.','For exceptions, we review the case separately.']],
+ ['処理完了',"Once that's done, we [close the case / notify the member].",'処理後、［ケースを閉じる／メンバーに連絡する］などに進みます。','実際の運用に合わせて結末を選ぶ。',['The next step is to [update the record].','After that, we [take the next action].']]
+]};
+explanationFlows.status={label:'状況・進捗',desc:'現在地 → 残件 → 確認中 → 返事待ち。結論を先に言い、短い英文でつなぐ。',sample:"We're almost ready. There are still a few things to finalize. We're checking on those now, and we're waiting to hear back. I'll share an update once I have more information.",steps:[
+ ['ほぼ完了',"We're almost ready.",'準備はほぼ完了しています。','冒頭で現在地を一文に。',["We're nearly done with the preparation.","Most of the preparation is complete."]],
+ ['残っていること','There are still a few things to finalize.','まだ仕上げることが少し残っています。','残件を詳細に説明しなくてもよい。',["There are a couple of items still outstanding.","We still have a few open items."]],
+ ['確認中',"We're checking on those now.",'現在、それらを確認中です。','thoseは前文の複数の残件を指す。単数なら that。',["We're looking into that now.","We're currently confirming the details."]],
+ ['連絡待ち',"We're waiting to hear back.",'先方からの返答を待っています。','from [team] を加えることもできる。',["We're still waiting for a response.","We haven't heard back yet."]],
+ ['次の共有',"I'll share an update once I hear back.",'返信があり次第、続報を共有します。','共有する予定があるときだけ使う。',["I'll keep you posted.","I'll update you as soon as I know more."]]
+]};
+// Three training levels: retrieve starters, vary the situation, and explain end-to-end.
+const explainTrain={
+ service:{
+   starters:["This program is designed to","The fee is","We use","One limitation is that","Here's how it works"],
+   variations:[
+    {cue:'新しいプログラムの目的：会員が選択肢を理解しやすくする',en:'This program is designed to help members understand their options.',hint:'This program is designed to ...'},
+    {cue:'手数料：1回の処理につき所定の金額',en:'The fee is [amount] per transaction.',hint:'The fee is ...'},
+    {cue:'制限：対象会員だけが利用できる',en:'This is only available to eligible members.',hint:'This is only ...'}
+   ],
+   full:{cue:'「目的 → 手数料 → システム → 制限」の順で、新サービスの概要を20〜30秒で説明する。金額や制限は架空のプレースホルダーでよい。',en:'This program is designed to help members [goal]. The fee is [amount] per transaction. We use our CRM system to process requests. One limitation is that [restriction].',hint:'This program is designed to ...'},
+   fullMore:[{cue:'別の状況：新しい予約サポートサービスについて、メリット・使用システム・注意点を20〜30秒で説明する。',en:'This service helps members [manage requests]. We use [our CRM system] to handle the process. One thing to keep in mind is [the eligibility requirement].',hint:'This service helps ...'}]
+ },
+ operation:{
+   starters:["Here's how the process works","When a member submits a request","Then someone on my team","If anything is missing","Once that's done"],
+   variations:[
+    {cue:'会員が申請すると、CRMでケースが作成される',en:'When a member submits a request, a case is created in our CRM system.',hint:'When a member ...'},
+    {cue:'そのケースを私のチームが確認して処理する',en:'Then someone on my team reviews and processes the case.',hint:'Then someone ...'},
+    {cue:'情報が足りない場合は追加確認する',en:'If we need more information, we follow up.',hint:'If we need ...'}
+   ],
+   full:{cue:'「業務の説明開始 → 申請 → CRMケース化 → チーム処理」を20〜30秒で説明する。',en:"Here's how the process works. When a member submits a request, it appears as a case in our CRM system. Then someone on my team reviews and processes it. If we need more information, we follow up.",hint:"Here's how ..."},
+   fullMore:[{cue:'別の状況：会員からの問い合わせを受け、内容を確認し、必要な部門へ引き継ぐ流れを説明する。',en:"Here's how it works. First, we receive an inquiry. Then our team reviews the details. If another team needs to get involved, we pass it along and follow up.",hint:"Here's how ..."}]
+ },
+ status:{
+   starters:["We're almost ready","There are still","We're checking","We're waiting","I'll share"],
+   variations:[
+    {cue:'イベント準備はほぼ完了。まだ少し作業が残っている',en:"We're almost ready. There are still a few things to finalize.",hint:"We're almost ..."},
+    {cue:'残っている点について、現在確認している',en:"We're checking on those now.",hint:"We're checking ..."},
+    {cue:'関係チームからの返答を待っている',en:"We're waiting to hear back from the team.",hint:"We're waiting ..."}
+   ],
+   full:{cue:'「ほぼ完了 → 残件 → 確認中 → 返事待ち」を20〜30秒で説明する。',en:"We're almost ready. There are still a few things to finalize. We're checking on those now, and we're waiting to hear back. I'll share an update once I have more information.",hint:"We're almost ..."},
+   fullMore:[{cue:'別の状況：新しい研修の準備はほぼ完了。いくつか確認中の項目があり、返答待ちであることを説明する。',en:"Most of the preparation is complete. We still have a couple of open items. We're checking on those and waiting for a response. We'll update the team once we know more.",hint:"Most of the preparation ..."}]
+ }
+};
+
+const tags={all:'すべて',business:'ビジネス',social:'交流',everyday:'日常',close:'親しい相手'};
+const moodNames={positive:'ポジティブ',negative:'ネガティブ',neutral:'ニュートラル'};
+const stepNames={home:0,category:1,mood:2,intent:3,results:4,saved:0,search:0,practice:0,guide:0,quickmenu:1,explain:2};
+const ICON={speaker:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 5-6 4H2v6h3l6 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>',copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg>'};
+function load(name, def){try{const v=JSON.parse(localStorage.getItem(name));return v??def}catch(e){return def}}
+function store(name,v){try{localStorage.setItem(name,JSON.stringify(v))}catch(e){}}
+let saved=load('sayflow_favs_v1',[]);if(!Array.isArray(saved))saved=[];
+let recent=load('sayflow_recent_v1',[]);if(!Array.isArray(recent))recent=[];
+let speed=load('sayflow_speed_v1',.88);if(![.75,.88,1].includes(speed))speed=.88;
+let bubbleMotion=load('sayflow_bubble_motion_v1','gentle');if(!['gentle','off'].includes(bubbleMotion))bubbleMotion='gentle';document.documentElement.dataset.bubbleMotion=bubbleMotion;
+let state={screen:'home',entry:null,group:null,mood:null,intent:null,quickType:null,quickId:null,flowVariants:{},exMode:'live',exStep:0,exLevel:1,exDrillIndex:0,exHint:false,exReveal:false,exMore:false,exStarted:false,exSeconds:null,filter:'all',expanded:false,practiceIndex:0,revealed:false,query:'',stack:[]};
+let isBusy=false;let toastTimer;let exStartTime=null;
+let trainingHistory=load('sayflow_extrain_v13',[]);if(!Array.isArray(trainingHistory))trainingHistory=[];
+const main=document.getElementById('main');
+const back=document.getElementById('backButton');
+const home=document.getElementById('homeButton');
+const fav=document.getElementById('favButton');
+const find=document.getElementById('findButton');
+const help=document.getElementById('helpButton');
+function snapshot(){const {stack,...rest}=state;return {...rest}}
+function go(update){if(isBusy)return;state.stack.push(snapshot());Object.assign(state,update);render(true)}
+function goBack(){if(isBusy)return;const prev=state.stack.pop();if(prev){Object.assign(state,prev);render(true)}}
+function reset(){if(isBusy)return;state={screen:'home',entry:null,group:null,mood:null,intent:null,quickType:null,quickId:null,flowVariants:{},exMode:'live',exStep:0,exLevel:1,exDrillIndex:0,exHint:false,exReveal:false,exMore:false,exStarted:false,exSeconds:null,filter:'all',expanded:false,practiceIndex:0,revealed:false,query:'',stack:[]};exStartTime=null;render(true)}
+function notice(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2000)}
+function heading(eye,title,sub){return `<div class="headline"><div class="eyebrow">${escapeHTML(eye)}</div><h1>${title}</h1><p>${escapeHTML(sub)}</p></div>`}
+function moodLabel(){return moodNames[state.mood]||''}
+function intentLabel(id){const x=Object.values(intents).flat().find(k=>k[0]===id);if(x)return x[1];const y=Object.values(quickCatalog).flat().find(k=>k.id===id);return y?y.label:''}
+function contextLabel(){const a=(config[state.entry]||[]).find(x=>x.id===state.group);return a?a.label:''}
+function getRoute(){return[contextLabel(),moodLabel(),intentLabel(state.intent)].filter(Boolean)}
+function remember(){const item={intent:state.intent,mood:state.mood,group:state.group,entry:state.entry};recent=[item,...recent.filter(x=>!(x.intent===item.intent&&x.group===item.group&&x.mood===item.mood))].slice(0,4);store('sayflow_recent_v1',recent)}
+
+function renderQuickMenu(){const typ=state.quickType||'explain',m=quickMeta[typ];
+ const ready=typ==='reply'?`<div class="ready-answers"><div class="section-line"><span>迷ったら、この3つ</span><small>INSTANT REPLIES</small></div>${[
+  ['Got it, thanks.','分かりました、ありがとう。'],['That clears it up, thanks.','疑問が解けました、ありがとう。'],['One quick follow-up: ...','もう一つだけ質問です。']
+ ].map(([en,jp])=>`<button class="ready-answer" data-say="${escapeHTML(en)}" aria-label="発音を聞く: ${escapeHTML(en)}"><span><b lang="en">${escapeHTML(en)}</b><small>${escapeHTML(jp)}</small></span><i>◖))</i></button>`).join('')}</div>`:'';
+ if(typ==='explain'){
+ const prim=quickCatalog.explain.filter(x=>x.featured),other=quickCatalog.explain.filter(x=>!x.featured);
+ return heading('EXPLAIN / 2 TAPS','何を<em>説明する？</em>','選ぶとすぐ英語の文頭が出ます。必要なら続きのチャンクを足せます。')+
+ `<div class="quick-menu-featured">${prim.map(x=>`<button class="quick-featured-tile" data-quickid="${x.id}"><span class="qft-icon">${escapeHTML(x.icon)}</span><span><b>${escapeHTML(x.label)}</b><small>${escapeHTML(x.sub)}</small></span><i>›</i></button>`).join('')}</div>`+
+ `<button class="quick-more-toggle" data-ex-moremenu="1" aria-expanded="${state.exMore}">${state.exMore?'− その他の説明を閉じる':'＋ その他：問題・提案・プログラム詳細'}</button>`+
+ (state.exMore?`<div class="quick-other-grid">${other.map(x=>`<button class="quick-tile" data-quickid="${x.id}"><span class="quick-tile-icon">${escapeHTML(x.icon)}</span><span><b>${escapeHTML(x.label)}</b><small>${escapeHTML(x.sub)}</small></span></button>`).join('')}</div>`:'')+
+ `<div class="ex-banner">言いたいことは明確なのに英語が出ない瞬間のために、まず「文頭を一つ」。実戦で使って、あとで練習できます。</div>`;
+ }
+ return heading(m.eye,`${m.title.slice(0,-1)}<em>${m.title.slice(-1)}</em>`,m.desc)+ready+
+ `<div class="quick-top"><div class="quick-map-intro">${typ==='ask'?'質問したい内容をタップ。会議ですぐ使える表現が出ます。':'答えを聞いた後の、次の一言を選びます。'}</div><div class="quick-menu-grid">${quickCatalog[typ].map(x=>`<button class="quick-tile" data-quickid="${x.id}"><span class="quick-tile-icon">${escapeHTML(x.icon)}</span><span><b>${escapeHTML(x.label)}</b><small>${escapeHTML(x.sub)}</small></span></button>`).join('')}</div></div>`;
+}
+function getCurrentStep(step,i){const ix=state.flowVariants[i]||0;const arr=[step[1],...(step[4]||[])];return arr[ix%arr.length]}
+function currentFlowLines(){const flow=explanationFlows[state.quickId];return flow?flow.steps.map((step,i)=>getCurrentStep(step,i)):[]}
+function highlightSlots(txt){return escapeHTML(txt).replace(/\[([^\]]+)\]/g,'<span class="ex-variable">[$1]</span>')}
+function getExDrill(){const flow=explanationFlows[state.quickId],training=explainTrain[state.quickId];if(!flow)return null;
+ const step=flow.steps[state.exStep%flow.steps.length];
+ if(state.exLevel===1){const starter=training?.starters[state.exStep] || getCurrentStep(step,state.exStep).split(/\s+/).slice(0,4).join(' ');
+ return {cue:`「${step[0]}」を説明し始める。文頭を3秒以内に言ってみる。`,answer:starter,hint:starter.split(' ').slice(0,2).join(' ')+' ...',instruction:'まず文頭だけ。続きは気にしなくてOK。'};
+ }
+ if(state.exLevel===2 && training){const d=training.variations[state.exDrillIndex%training.variations.length];return {cue:d.cue,answer:d.en,hint:d.hint,instruction:'初めての内容に、覚えた型を当てはめる。'};}
+ if(state.exLevel===3 && training){const x=[training.full,...(training.fullMore||[])][state.exDrillIndex%(1+(training.fullMore||[]).length)];return {cue:x.cue,answer:x.en,hint:x.hint,instruction:'文頭を出してから、短い文をつないで説明する。'};}
+ return {cue:`「${step[0]}」を自分の言葉で説明する。`,answer:getCurrentStep(step,state.exStep),hint:flow.steps[state.exStep][1].split(' ').slice(0,2).join(' ')+' ...',instruction:'日本語の意図を英文に変える。'};
+}
+function renderExplain(){const flow=explanationFlows[state.quickId];if(!flow)return '<div class="empty">説明の型を選び直してください。</div>';
+ const stepIndex=Math.max(0,Math.min(state.exStep,flow.steps.length-1)),step=flow.steps[stepIndex],en=getCurrentStep(step,stepIndex),primary=state.exMode==='live';const history=trainingHistory.filter(x=>x.topic===state.quickId),success=history.filter(x=>x.result==='solo').length;
+ let body=`<div class="explain-v13"><div class="explain-route">説明する　›　${escapeHTML(flow.label)} <span style="float:right;color:#9ddcd2">Ver. 1.3</span></div>
+ <div class="explain-lead"><h1>${escapeHTML(flow.label)}を、<em>英語で。</em></h1><p>${escapeHTML(flow.desc)}</p></div>
+ <div class="ex-ways" role="group" aria-label="モード"><button class="ex-way ${primary?'active':''}" data-ex-mode="live" aria-pressed="${primary}">⚡ 実戦で使う</button><button class="ex-way ${!primary?'active':''}" data-ex-mode="train" aria-pressed="${!primary}">◉ 練習する</button></div>`;
+ if(primary){body+=`<div class="ex-quickhint">今すぐ言いたい内容を選ぶ。最初に出す英語は一つだけ。</div>
+ <div class="ex-intent-strip" aria-label="説明したい項目">${flow.steps.map((x,i)=>`<button class="ex-chip ${i===stepIndex?'active':''}" data-ex-step="${i}" aria-pressed="${i===stepIndex}">${escapeHTML(x[0])}</button>`).join('')}</div>
+ <div class="ex-hero"><div class="ex-overline">SAY THIS FIRST · ${stepIndex+1}/${flow.steps.length}</div><p class="ex-jp-label">${escapeHTML(step[2])}</p><p class="ex-hero-en" lang="en">${highlightSlots(en)}</p><p class="ex-use">${escapeHTML(step[3])}</p>
+ <div class="ex-primary-acts"><button class="action primary" data-say="${escapeHTML(en)}">${ICON.speaker} 発音を聞く</button><button class="action" data-copy="${escapeHTML(en)}">${ICON.copy} コピー</button></div></div>
+ <div class="ex-corner-actions"><button class="ex-simplebtn" data-cycle="${stepIndex}">↻ 別の言い方</button><button class="ex-simplebtn ex-continue" data-ex-next="1">${stepIndex===flow.steps.length-1?'最初に戻る':'次のチャンク →'}</button></div>
+ <button class="ex-flow-toggle" data-ex-flowtoggle="1" aria-expanded="${state.exMore}">${state.exMore?'− つないで話す：全体を閉じる':'＋ つないで話す：一連の英文を見る'}　⌄</button>`;
+ if(state.exMore){body+=`<div class="ex-flow-list">${flow.steps.map((x,i)=>{const txt=getCurrentStep(x,i);return `<div class="ex-flow-item"><strong>${i+1}. ${escapeHTML(x[0])}</strong><p lang="en">${highlightSlots(txt)}</p><small>${escapeHTML(x[2])}</small></div>`}).join('')}</div><button class="ex-simplebtn" data-copyflow="1" style="width:100%">全文をコピー</button>`;}
+ body+=`<button class="quick-bridge" data-ex-mode="train" style="width:100%;margin:19px 0 4px"><span><b>この型を自力で話す練習へ</b><small>ヒントを減らしながら3段階で練習</small></span><span class="arr">↗</span></button>`;
+ }else{
+ const drill=getExDrill();body+=`<div class="ex-train-levels" role="group" aria-label="練習レベル">${[['1','文頭を出す'],['2','中身を変える'],['3','通して話す']].map(([lvl,lab])=>`<button class="ex-level ${state.exLevel===Number(lvl)?'active':''}" data-ex-level="${lvl}" aria-pressed="${state.exLevel===Number(lvl)}"><b>LEVEL ${lvl}</b><small>${lab}</small></button>`).join('')}</div>`;
+ if(state.exLevel===1){body+=`<div class="ex-intent-strip" aria-label="文頭のテーマ">${flow.steps.map((x,i)=>`<button class="ex-chip ${i===stepIndex?'active':''}" data-ex-step="${i}">${escapeHTML(x[0])}</button>`).join('')}</div>`;}
+ body+=`<div class="ex-train-card"><div class="ex-train-label">SAY IT IN ENGLISH · LEVEL ${state.exLevel}</div><p class="ex-train-cue">${escapeHTML(drill.cue)}</p><p class="ex-use">${escapeHTML(drill.instruction)}</p>`;
+ if(!state.exStarted && state.exSeconds===null){body+=`<div class="ex-train-buttons"><button class="ex-primary" data-ex-start="1">スタート ／ 英語を話す</button></div>`;}
+ else{body+=`<div class="ex-timer-row"><span class="ex-time">${state.exSeconds!==null?`開始まで ${state.exSeconds.toFixed(1)} 秒（手動記録）`:'話し始めたら、下のボタンをタップ'}</span></div>`;
+ if(state.exSeconds===null){body+=`<div class="ex-train-buttons"><button class="ex-primary" data-ex-spoke="1">話し始めた ✓</button></div>`;}}
+ if(state.exHint){body+=`<div class="ex-hint">${escapeHTML(drill.hint)}</div>`;}
+ if(state.exReveal){body+=`<div class="ex-train-answer" lang="en">${highlightSlots(drill.answer)}</div><div class="ex-train-buttons"><button data-say="${escapeHTML(drill.answer)}">${ICON.speaker}　音声を聞く</button></div>`;}
+ body+=`<div class="ex-train-buttons"><button data-ex-hint="1">${state.exHint?'ヒント表示中':'文頭ヒント'}</button><button data-ex-reveal="1">${state.exReveal?'答えを隠す':'答えを見る'}</button></div></div>`;
+ body+=`<div class="ex-train-summary">自分で言えたか選ぶと記録して次の問題へ進みます。<b>このアプリは声を聞き取って採点しません。</b></div>
+ <div class="ex-outcomes"><button data-ex-result="solo">◎ 自力で言えた</button><button data-ex-result="hint">△ ヒントで言えた</button><button data-ex-result="saw">◻ 答えを見た</button></div>
+ <div class="ex-banner">このテーマの記録：${history.length} 回／自力で言えた ${success} 回。端末内だけに保存します。<br>3秒は目安です。時間は「スタート」と「話し始めた」タップの間隔を記録し、発話開始の自動判定ではありません。</div>`;
+ }
+ body+=`<div class="ex-banner">[ ] は入れ替える内容です。会議情報や顧客情報をこのアプリに入力する必要はありません。</div></div>`;
+ return body;
+}
+function renderHome(){const rec=recent.length?`<div class="recent-wrap"><div class="section-line"><span>最近使った表現</span><small>QUICK ACCESS</small></div><div class="recent-list">${recent.map((r,i)=>`<button class="recent-card" data-recent="${i}"><span class="recent-dot"></span><span>${escapeHTML(intentLabel(r.intent))}<small>${escapeHTML([r.group?tags[r.group]:null,moodNames[r.mood]].filter(Boolean).join(' · '))}</small></span><span aria-hidden="true">↗</span></button>`).join('')}</div></div>`:'';
+return heading('SAY WHAT YOU MEAN','会議で言葉が、<br><em>止まらない。</em>','「説明する」から2タップで文頭へ。質問や返答の型もすぐ探せます。')+
+ `<div class="quick-block"><div class="quick-label"><span>今すぐ使う</span><small>QUICK START / 1 TAP</small></div><div class="quick-action-grid"><button class="quick-action" data-quicktype="explain"><span class="quick-action-symbol">→</span><span><strong>説明する</strong><small>状況・プログラム・サービス・業務の流れ</small></span><span class="quick-arr">›</span></button><button class="quick-action" data-quicktype="ask"><span class="quick-action-symbol">?</span><span><strong>質問する</strong><small>目的・理由・手順・担当・条件を尋ねる</small></span><span class="quick-arr">›</span></button><button class="quick-action" data-quicktype="reply"><span class="quick-action-symbol">↩</span><span><strong>答えを聞いて返す</strong><small>理解した・追加で聞く・確認して締める</small></span><span class="quick-arr">›</span></button></div></div><div class="old-entry-wrap"><div class="section-line"><span>ほかの探し方</span><small>EXPLORE</small></div>`+
+`<div class="entry-list"><button class="entry" data-entry="emotion"><span class="entry-icon">✦</span><span><span class="entry-title">感情から探す</span><span class="entry-sub">ポジティブ / ネガティブ / ニュートラル</span></span><span class="entry-arrow">↗</span></button><button class="entry" data-entry="scene"><span class="entry-icon">◈</span><span><span class="entry-title">場面から探す</span><span class="entry-sub">ビジネス / ネットワーキング</span></span><span class="entry-arrow">↗</span></button><button class="entry" data-entry="relation"><span class="entry-icon">◎</span><span><span class="entry-title">相手との関係から探す</span><span class="entry-sub">日常の相手 / 親しい相手</span></span><span class="entry-arrow">↗</span></button></div></div>`+rec+
+`<div class="home-shortcuts"><button data-open="search">${ICON.search} 直接探す</button><button data-open="practice">◉ お気に入り練習</button></div>`;
+}
+function bubbleHTML(x){return `<button class="bubble" data-bubble="${x.id}" style="--a:${x.a};--b:${x.b};--glow:${x.glow}" aria-label="${x.label}"><span>${x.label}</span><small>${x.sub}</small></button>`}
+function renderCategory(){const title=state.entry==='emotion'?'今の気持ちは？':state.entry==='scene'?'どんな場面？':'どんな相手？';return heading('STEP 01 / TAP A BUBBLE',title,'深く考えず、いま一番近いものをタップ。')+`<div class="bubbles ${config[state.entry].length===3?'triangle':'duo'}">${config[state.entry].map(bubbleHTML).join('')}</div><div class="step-foot">バブルをタップすると次へ進みます</div>`}
+function renderMood(){return heading('STEP 02 / FEELING','どんな気持ちを、<br><em>伝えたい？</em>','まずは発言の方向性だけを選びます。')+`<div class="bubbles triangle">${config.emotion.map(bubbleHTML).join('')}</div><div class="step-foot">細かな表現は次の画面で選べます</div>`}
+function renderIntents(){const intro={positive:'前向きな気持ちを、',negative:'慎重な気持ちを、',neutral:'ありのまま、'}[state.mood];return heading('STEP 03 / YOUR INTENTION',`${intro}<br><em>どう伝える？</em>`,'6つの大まかな意図から選んでください。')+`<div class="option-grid">${intents[state.mood].map(([id,t,sub,ico,color])=>`<button class="intent" data-intent="${id}" style="--tile:${color}"><span class="icon">${ico}</span><span><strong>${t}</strong><small style="display:block">${sub}</small></span></button>`).join('')}</div>`}
+function isMatch(item,filter){const ts=item[3].split(',');return filter==='all'||ts.includes('all')||ts.includes(filter)}
+function chunkKey(id,item){return id+'|'+item[0]}
+function card(item,id){const key=chunkKey(id,item);const starred=saved.includes(key);return `<article class="chunk" data-chunk="${escapeHTML(key)}"><div class="chunk-top"><span class="chunk-tag">${escapeHTML(item[4])} <span class="dot-sep">•</span> ${escapeHTML(intentLabel(id))}</span><button class="heart ${starred?'saved':''}" aria-label="${starred?'お気に入り解除':'お気に入りに保存'}" aria-pressed="${starred}" data-save="${escapeHTML(key)}">${starred?'★':'☆'}</button></div><div class="en" lang="en">${escapeHTML(item[0])}</div><p class="jp">${escapeHTML(item[1])}</p><p class="note">${escapeHTML(item[2])}</p><div class="chunk-actions"><button class="action primary" data-say="${escapeHTML(item[0])}">${ICON.speaker} 発音を聞く</button><button class="action" data-copy="${escapeHTML(item[0])}">${ICON.copy} コピー</button></div></article>`}
+function filters(){return `<div class="filters" aria-label="場面フィルター">${Object.entries(tags).map(([id,t])=>`<button class="filter ${state.filter===id?'active':''}" aria-pressed="${state.filter===id}" data-filter="${id}">${t}</button>`).join('')}</div>`}
+function renderResults(){const all=data[state.intent]||[];const matches=all.filter(x=>isMatch(x,state.filter));const display=state.expanded?matches:matches.slice(0,3);const path=state.quickType&&state.quickId?[{ask:'質問する',reply:'返す'}[state.quickType],intentLabel(state.intent)].filter(Boolean):getRoute();const next=state.quickType==='ask'?'<button class="quick-bridge" data-quicklink="reply"><span><b>答えが返ってきたら → 返す</b><small>会話を止めないための返答集</small></span><span class="arr">↗</span></button>':'';return `<div class="results"><div class="results-lead"><div class="route">${path.map(l=>`<span>${escapeHTML(l)}</span>`).join('')}</div><h1>${escapeHTML(intentLabel(state.intent))}<span class="results-minor"> / English chunks</span></h1><p>まずは3つの候補。音声を聞いて、気に入った型を保存できます。</p></div>${next}${filters()}<div id="resultCards">${matches.length?display.map(x=>card(x,state.intent)).join(''):'<div class="empty">この場面に合う表現はありません。「すべて」に切り替えてください。</div>'}</div>${matches.length>3?`<button class="more-button" data-more="1">${state.expanded?'少なく表示する ↑':`ほかの ${matches.length-3} 件も見る ↓`}</button>`:''}<button class="next-intent" data-open="intent">← 発言の目的を選び直す</button></div>`}
+function entriesSaved(){return saved.map(key=>{const k=key.indexOf('|');const id=key.slice(0,k),phrase=key.slice(k+1);return {id,item:(data[id]||[]).find(x=>x[0]===phrase)}}).filter(x=>x.item)}
+function renderSaved(){const items=entriesSaved();return heading('YOUR COLLECTION','お気に入りの<em>英語</em>','保存した表現は、この端末のブラウザ内に記録されます。')+`<div class="results">${items.length?items.map(x=>card(x.item,x.id)).join(''):'<div class="empty">まだ保存した表現はありません。<br>英語の型の ☆ をタップすると追加できます。</div>'}${items.length?`<button class="more-button" data-open="practice">保存した表現で練習する →</button>`:''}</div>`}
+function searchMatches(q){const text=q.trim().toLowerCase();const rows=Object.entries(data).flatMap(([id,arr])=>arr.map(item=>({id,item})));if(!text)return rows.filter(x=>['agree','confirm','pause'].includes(x.id)).slice(0,6);return rows.filter(({id,item})=>[...item,intentLabel(id)].some(x=>String(x).toLowerCase().includes(text))).slice(0,30)}
+function searchCardContent(q){const items=searchMatches(q);return items.length?items.map(({id,item})=>card(item,id)).join(''):'<div class="empty">該当する表現がありません。<br>別の日本語・英語を試してください。</div>'}
+function renderSearch(){return heading('FAST FIND','直接<em>探す</em>','「同意」「確認」「I think」など日本語・英語で検索できます。')+`<div class="search-bar">${ICON.search}<input id="searchInput" type="search" placeholder="例：同意、心配、確認、good..." value="${escapeHTML(state.query)}" enterkeyhint="search" autocomplete="off" aria-label="英語の型を検索"></div><div class="section-line"><span id="searchCount">${state.query?'検索結果':'おすすめのフレーズ'}</span><small>PHRASES</small></div><div class="results" id="searchResults">${searchCardContent(state.query)}</div>`}
+function practicePool(){const favs=entriesSaved();return favs.length?favs:[...data.agree.map(x=>({id:'agree',item:x})),...data.confirm.slice(0,2).map(x=>({id:'confirm',item:x}))]}
+function renderPractice(){const pool=practicePool();const x=pool[state.practiceIndex%pool.length];if(!x)return '<div class="empty">練習用チャンクがありません。</div>';return heading('SPEAKING PRACTICE','一瞬で、<em>英語に。</em>','日本語を見て声に出し、タップして英語を確認します。')+`<div class="practice-track">${state.practiceIndex%pool.length+1} / ${pool.length}　${entriesSaved().length?'保存した表現':'おすすめの表現'}</div><button class="flash" data-reveal="1" aria-label="タップで答えを見る"><span class="flash-label">SAY THIS IN ENGLISH</span><span class="flash-jp">${escapeHTML(x.item[1])}</span><span class="flash-line"></span>${state.revealed?`<span class="flash-answer" lang="en">${escapeHTML(x.item[0])}</span><span class="flash-hint">${escapeHTML(x.item[2])}</span>`:'<span class="flash-hint">タップして英語を表示</span>'}</button><div class="practice-actions"><button class="action" data-reveal="1">${state.revealed?'答えを隠す':'答えを見る'}</button><button class="action primary" data-next-practice="1">次のカード →</button></div>${state.revealed?`<button class="practice-audio" data-say="${escapeHTML(x.item[0])}">${ICON.speaker} 発音を聞く</button>`:''}<div class="help">翻訳を暗記するのではなく、日本語の意図から英語が口に出るかを練習します。</div>`}
+function renderGuide(){return heading('ABOUT SAYFLOW','使い方と<em>設定</em>','会話の「意図」をすばやく英語に変えるためのツールです。')+`<div class="guide-list"><section><strong>01 / 入口を選ぶ</strong><p>「説明する・質問する・返す」が近道。説明では実戦・練習を切り替えられます。</p></section><section><strong>02 / バブルをタップ</strong><p>感情からなら「ポジティブ → 同意する」のように2回選ぶだけでチャンクを表示できます。</p></section><section><strong>03 / その場で使う</strong><p>英語をタップせず読んで話せます。発音再生・コピー・お気に入りも利用できます。</p></section></div><div class="settings-box"><div class="section-line"><span>読み上げ速度</span><small>US ENGLISH</small></div><div class="speed-row">${[[.75,'ゆっくり'],[.88,'ふつう'],[1,'速め']].map(([r,t])=>`<button class="speed ${speed===r?'active':''}" data-speed="${r}">${t}</button>`).join('')}</div><p class="setting-note">音声の種類・品質はiPhoneのシステム音声設定によって異なります。音が出ないときは音量・消音モード・Bluetoothの出力先を確認してください。</p><button class="action primary" style="margin:8px 0 20px;width:100%;justify-content:center" data-say="Hello. This is the SayFlow audio test.">${ICON.speaker} 音声テスト（Hello）</button><div class="section-line motion-heading"><span>バブルの動き</span><small>ANIMATION</small></div><div class="speed-row"><button class="speed ${bubbleMotion==='gentle'?'active':''}" data-motion="gentle" aria-pressed="${bubbleMotion==='gentle'}">ゆっくり浮かぶ</button><button class="speed ${bubbleMotion==='off'?'active':''}" data-motion="off" aria-pressed="${bubbleMotion==='off'}">動きを止める</button></div><p class="setting-note">タップしたときの変形は、どちらの設定でも残ります。</p></div><div class="help">お気に入りと最近の選択はこのブラウザに保存されます。別の端末には同期されず、Safariのサイトデータを消去すると失われる場合があります。英語表現は場面と関係性によってニュアンスが変わるため、使用前に文脈を確認してください。</div>`}
+function render(scrollToTop=false){let html='';switch(state.screen){case'home':html=renderHome();break;case'quickmenu':html=renderQuickMenu();break;case'explain':html=renderExplain();break;case'category':html=renderCategory();break;case'mood':html=renderMood();break;case'intent':html=renderIntents();break;case'results':html=renderResults();break;case'saved':html=renderSaved();break;case'search':html=renderSearch();break;case'practice':html=renderPractice();break;case'guide':html=renderGuide();break;default:html=renderHome()}
+main.innerHTML=`<section class="panel">${html}</section>`;
+document.getElementById('favCount').textContent=saved.length;
+back.disabled=state.stack.length===0;
+const pg=stepNames[state.screen];document.getElementById('progress').innerHTML=[1,2,3,4].map(i=>`<span class="${i<=pg?'on':''}"></span>`).join('');
+find.setAttribute('aria-current',state.screen==='search'?'page':'false');fav.setAttribute('aria-current',state.screen==='saved'?'page':'false');
+if(scrollToTop)window.scrollTo(0,0);
+}
+function chooseBubble(el){if(isBusy)return;isBusy=true;const val=el.dataset.bubble;main.querySelectorAll('.bubble').forEach(btn=>btn.classList.add(btn===el?'selected':'unselected'));const ms=window.matchMedia('(prefers-reduced-motion: reduce)').matches?70:620;setTimeout(()=>{isBusy=false;if(state.screen==='category'){if(state.entry==='emotion'){go({screen:'intent',mood:val,group:null,filter:'all'})}else{go({screen:'mood',group:val,filter:val})}}else if(state.screen==='mood'){go({screen:'intent',mood:val})}},ms)}
+// Keep an utterance alive until speech ends. On some mobile engines a local-only
+// utterance can be collected; also avoid cancelling the engine on every first tap.
+let activeUtterance=null;
+let speechCheckTimer=null;
+function say(text){
+  const synth=window.speechSynthesis;
+  if(!synth||!('SpeechSynthesisUtterance' in window)){
+    notice('このブラウザは音声再生に対応していません');
+    return;
+  }
+  const spoken=text.replace(/\[([^\]]+)\]/g,'$1').trim();
+  if(!spoken)return;
+  try{
+    if(synth.speaking||synth.pending)synth.cancel();
+    const u=new SpeechSynthesisUtterance(spoken);
+    activeUtterance=u;
+    u.lang='en-US';
+    u.rate=speed;
+    u.pitch=1;
+    const voices=synth.getVoices();
+    const us=voices.find(v=>v.lang.toLowerCase().replace('_','-')==='en-us');
+    if(us)u.voice=us;
+    let started=false;
+    if(speechCheckTimer)clearTimeout(speechCheckTimer);
+    u.onstart=()=>{
+      if(activeUtterance!==u)return;
+      started=true;
+      if(speechCheckTimer)clearTimeout(speechCheckTimer);
+      notice('英語音声を再生しています');
+    };
+    u.onend=()=>{
+      if(activeUtterance===u){activeUtterance=null;if(speechCheckTimer)clearTimeout(speechCheckTimer);}
+    };
+    u.onerror=(e)=>{
+      if(activeUtterance!==u)return;
+      activeUtterance=null;
+      if(speechCheckTimer)clearTimeout(speechCheckTimer);
+      notice('音声エラー: '+(e.error||'不明')+'。Safariの設定をご確認ください');
+    };
+    // This call remains inside the user's tap handler (mobile autoplay policies).
+    synth.speak(u);
+    if(synth.paused)synth.resume();
+    speechCheckTimer=setTimeout(()=>{
+      if(activeUtterance===u&&!started)notice('音声が始まりません。音量・消音・出力先を確認してください');
+    },3000);
+  }catch(e){activeUtterance=null;notice('音声再生に失敗しました。Safariから試してください');}
+}
+async function copyText(s){try{if(!navigator.clipboard?.writeText)throw Error('fallback');await navigator.clipboard.writeText(s);notice('コピーしました')}catch(e){const text=document.createElement('textarea');text.value=s;text.style.position='fixed';text.style.opacity='0';document.body.appendChild(text);text.select();const ok=document.execCommand('copy');text.remove();notice(ok?'コピーしました':'コピーできませんでした')}}
+function favToggle(key,btn){if(saved.includes(key)){saved=saved.filter(x=>x!==key);notice('お気に入りを解除しました')}else{saved.push(key);notice('お気に入りに保存しました')}store('sayflow_favs_v1',saved);const on=saved.includes(key);btn.classList.toggle('saved',on);btn.textContent=on?'★':'☆';btn.setAttribute('aria-pressed',String(on));btn.setAttribute('aria-label',on?'お気に入り解除':'お気に入りに保存');document.getElementById('favCount').textContent=saved.length;}
+main.addEventListener('click',e=>{const btn=e.target.closest('button');if(!btn)return;
+if(btn.dataset.exMoremenu){state.exMore=!state.exMore;render();return}
+if(btn.dataset.exMode){state.exMode=btn.dataset.exMode;state.exStep=Math.min(state.exStep,(explanationFlows[state.quickId]?.steps.length||1)-1);state.exHint=false;state.exReveal=false;state.exStarted=false;state.exSeconds=null;exStartTime=null;render();return}
+if(btn.dataset.exStep!==undefined){state.exStep=Number(btn.dataset.exStep);state.exReveal=false;state.exHint=false;state.exStarted=false;state.exSeconds=null;exStartTime=null;render();return}
+if(btn.dataset.exNext){state.exStep=(state.exStep+1)%explanationFlows[state.quickId].steps.length;render();return}
+if(btn.dataset.exFlowtoggle){state.exMore=!state.exMore;render();return}
+if(btn.dataset.exLevel){state.exLevel=Number(btn.dataset.exLevel);state.exDrillIndex=0;state.exHint=false;state.exReveal=false;state.exStarted=false;state.exSeconds=null;exStartTime=null;render();return}
+if(btn.dataset.exStart){exStartTime=performance.now();state.exStarted=true;state.exSeconds=null;render();return}
+if(btn.dataset.exSpoke){if(exStartTime!==null){state.exSeconds=Math.max(0,(performance.now()-exStartTime)/1000);exStartTime=null;}render();return}
+if(btn.dataset.exHint){state.exHint=!state.exHint;render();return}
+if(btn.dataset.exReveal){state.exReveal=!state.exReveal;render();return}
+if(btn.dataset.exResult){trainingHistory.push({topic:state.quickId,level:state.exLevel,result:btn.dataset.exResult,seconds:state.exSeconds,when:new Date().toISOString()});trainingHistory=trainingHistory.slice(-300);store('sayflow_extrain_v13',trainingHistory);const msg={solo:'自力で言えた！',hint:'ヒントを使って言えた',saw:'答えを確認した'}[btn.dataset.exResult];
+ if(state.exLevel===1)state.exStep=(state.exStep+1)%explanationFlows[state.quickId].steps.length;else if(state.exLevel===2)state.exDrillIndex++;else state.exDrillIndex++;
+ state.exHint=false;state.exReveal=false;state.exStarted=false;state.exSeconds=null;exStartTime=null;render();notice(msg+' · 記録しました');return}
+if(btn.dataset.quicktype){go({screen:'quickmenu',quickType:btn.dataset.quicktype,quickId:null,intent:null,flowVariants:{},exMore:false,filter:'all',expanded:false});return}
+if(btn.dataset.quicklink){go({screen:'quickmenu',quickType:btn.dataset.quicklink,quickId:null,intent:null,flowVariants:{},filter:'all',expanded:false});return}
+if(btn.dataset.quickid){const id=btn.dataset.quickid;if(state.quickType==='explain')go({screen:'explain',quickId:id,flowVariants:{},exMode:'live',exStep:0,exLevel:1,exDrillIndex:0,exHint:false,exReveal:false,exMore:false,exStarted:false,exSeconds:null});else{go({screen:'results',quickId:id,intent:id,filter:'all',expanded:false})}return}
+if(btn.dataset.cycle!==undefined){const i=Number(btn.dataset.cycle);const step=explanationFlows[state.quickId]?.steps[i];if(!step)return;state.flowVariants={...state.flowVariants,[i]:((state.flowVariants[i]||0)+1)%(1+(step[4]||[]).length)};render();return}
+if(btn.dataset.copyflow){copyText(currentFlowLines().join('\n'));return}
+if(btn.dataset.entry){go({screen:'category',entry:btn.dataset.entry,group:null,mood:null,intent:null,filter:'all',expanded:false});return}
+if(btn.dataset.bubble){chooseBubble(btn);return}
+if(btn.dataset.intent){state.expanded=false;state.intent=btn.dataset.intent;remember();go({screen:'results'});return}
+if(btn.dataset.filter){state.filter=btn.dataset.filter;state.expanded=false;render();return}
+if(btn.dataset.more){state.expanded=!state.expanded;render();return}
+if(btn.dataset.save){favToggle(btn.dataset.save,btn);return}
+if(btn.dataset.say){say(btn.dataset.say);return}
+if(btn.dataset.copy){copyText(btn.dataset.copy);return}
+if(btn.dataset.recent){const item=recent[Number(btn.dataset.recent)];if(!item)return;go({screen:'results',entry:item.entry,group:item.group,mood:item.mood,intent:item.intent,filter:item.group||'all',expanded:false});return}
+if(btn.dataset.reveal){state.revealed=!state.revealed;render();return}
+if(btn.dataset.nextPractice){state.practiceIndex++;state.revealed=false;render();return}
+if(btn.dataset.speed){speed=Number(btn.dataset.speed);store('sayflow_speed_v1',speed);render();notice('速度を変更しました');return}
+if(btn.dataset.motion){bubbleMotion=btn.dataset.motion;document.documentElement.dataset.bubbleMotion=bubbleMotion;store('sayflow_bubble_motion_v1',bubbleMotion);render();notice(bubbleMotion==='gentle'?'バブルをゆっくり動かします':'バブルの浮遊を停止しました');return}
+if(btn.dataset.open){const dest=btn.dataset.open;if(dest==='intent'){if(state.quickType&&state.quickId){goBack();return}state.screen==='results'?goBack():go({screen:'intent'});return}go({screen:dest,practiceIndex:0,revealed:false});return}
+});
+main.addEventListener('input',e=>{if(e.target.id==='searchInput'){state.query=e.target.value;const result=document.getElementById('searchResults');result.innerHTML=searchCardContent(state.query);document.getElementById('searchCount').textContent=state.query?'検索結果':'おすすめのフレーズ'}});
+back.addEventListener('click',goBack);
+home.addEventListener('click',reset);
+document.getElementById('replyButton').addEventListener('click',()=>{if(!isBusy)go({screen:'quickmenu',quickType:'reply',quickId:null,intent:null,flowVariants:{},filter:'all',expanded:false})});
+fav.addEventListener('click',()=>{if(!isBusy&&state.screen!=='saved')go({screen:'saved'})});
+find.addEventListener('click',()=>{if(!isBusy&&state.screen!=='search')go({screen:'search'})});
+help.addEventListener('click',()=>{if(!isBusy&&state.screen!=='guide')go({screen:'guide'})});
+render();
+if('serviceWorker'in navigator && location.protocol==='https:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+})();
+
+</script>
+</body>
+</html>
